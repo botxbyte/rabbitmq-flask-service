@@ -2,3 +2,4 @@ Flask
 pika
 dotenv
 requests
+loguru
