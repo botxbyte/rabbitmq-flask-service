@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  title: Queue Management API
+  description: API for managing RabbitMQ queues, scaling workers, publishing tasks, clearing queues, and monitoring worker statuses.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+    description: Local development server
+
+paths:
+  /queue/scale/{queue_name}:
+    post:
+      summary: Scale queue workers
+      description: Adjust the number of workers for a specific queue.
+      parameters:
+        - name: queue_name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                count:
+                  type: integer
+                  description: Desired number of workers
+                worker_type:
+                  type: string
+                  description: Type of worker to scale
+      responses:
+        200:
+          description: Scaling successful
+          content:
+            application/json:
+              schema:
+                type: object
+        400:
+          description: Invalid worker type or request data
+        500:
+          description: Internal server error
+
+  /queue/publish/{queue_name}:
+    post:
+      summary: Publish a task to a queue
+      description: Publish a task with a specific worker type and domain name.
+      parameters:
+        - name: queue_name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                worker_type:
+                  type: string
+                  description: Type of worker
+                domain_name:
+                  type: string
+                  description: Domain name for the task
+      responses:
+        200:
+          description: Task published successfully
+        400:
+          description: Invalid worker type or missing domain name
+        500:
+          description: Internal server error
+
+  /queue/clear/{queue_name}:
+    post:
+      summary: Clear a queue
+      description: Stop all workers and remove all messages from the queue.
+      parameters:
+        - name: queue_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Queue cleared successfully
+        500:
+          description: Internal server error
+
+  /queue/worker:
+    get:
+      summary: Get worker information
+      description: Retrieve details of all active workers.
+      responses:
+        200:
+          description: Workers retrieved successfully
+        500:
+          description: Internal server error
+
+  
+
+  /queue/workers/{queue_name}:
+    get:
+      summary: Get workers for a specific queue
+      description: Retrieve details of workers consuming from a specific queue.
+      parameters:
+        - name: queue_name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Queue workers retrieved successfully
+        500:
+          description: Internal server error

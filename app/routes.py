@@ -165,7 +165,7 @@ def scale_worker():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-@queue_bp.route("/queue/<queue_name>/workers", methods=["GET"])
+@queue_bp.route("/queue/workers/<queue_name>", methods=["GET"])
 def get_queue_workers(queue_name):
     try:
         url = f"http://{RABBITMQ_HOST}:15672/api/consumers"
