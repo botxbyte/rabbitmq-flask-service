@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This Flask-based API manages RabbitMQ queues, allowing users to efficiently scale workers, publish tasks, clear queues, and monitor worker statuses.
+This Flask-based API manages RabbitMQ queues, allowing users to efficiently scale workers, publish messages, clear queues, and monitor worker statuses.
 
 ## What is RabbitMQ?
 
@@ -14,17 +14,38 @@ RabbitMQ is an open-source message broker that facilitates communication between
 - **Consumer**: An application that receives messages from a queue.
 - **Queue**: A buffer that stores messages sent from producers until they are processed by consumers.
 - **Exchange**: A routing mechanism that determines how messages are distributed to queues based on routing rules.
+- **Message**: The data sent between producers and consumers, which can represent tasks, notifications, or any other information.
 
 ## Features
 
 - **Scalable Worker Management**: Dynamically increase or decrease the number of workers for specific queues.
-- **Task Publishing**: Publish tasks with worker types and domain names to RabbitMQ queues.
+- **Message Publishing**: Publish messages with worker types and domain names to RabbitMQ queues.
 - **Queue Clearing**: Remove all pending messages and stop workers from consuming tasks.
 - **Worker Monitoring**: Retrieve active worker details and get workers based on queues or types.
 
 ## API Endpoints
 
-### 1. Scale Queue Workers
+### 1. Create a Queue
+
+**Endpoint:** `POST /queue/create`
+
+**Description:** Create a new queue.
+
+**Request Body:**
+
+```json
+{
+  "queue_name": "my_queue"
+}
+```
+
+### 2. List Queues
+
+**Endpoint:** `GET /queue/list`
+
+**Description:** Retrieve details of all queues.
+
+### 3. Scale Queue Workers
 
 **Endpoint:** `POST /queue/scale/{queue_name}`
 
@@ -35,42 +56,41 @@ RabbitMQ is an open-source message broker that facilitates communication between
 ```json
 {
   "count": 5,
-  "worker_type": "worker1"
+  "worker_name": "worker1"
 }
 ```
 
-### 2. Publish a Task to a Queue
+### 4. Publish a Message to a Queue
 
 **Endpoint:** `POST /queue/publish/{queue_name}`
 
-**Description:** Publish a task with a specific worker type and domain name.
+**Description:** Publish a message with a specific worker type and domain name.
 
 **Request Body:**
 
 ```json
 {
-  "worker_type": "scraper",
   "domain_name": "example.com"
 }
 ```
 
-### 3. Clear a Queue
+### 5. Clear a Queue
 
 **Endpoint:** `POST /queue/clear/{queue_name}`
 
 **Description:** Stops all workers and removes all messages from the queue.
 
-### 4. Get All Active Workers
+### 6. Delete a Queue
 
-**Endpoint:** `GET /queue/workers`
+**Endpoint:** `DELETE /queue/delete/{queue_name}`
 
-**Description:** Retrieve details of all active workers.
+**Description:** Delete a specific queue.
 
-### 5. Get Workers for a Specific Queue
+### 7. Get Worker Logs
 
-**Endpoint:** `GET /queue/workers/{queue_name}`
+**Endpoint:** `GET /workers/logs/<pid>`
 
-**Description:** Retrieve details of workers consuming from a specific queue.
+**Description:** Retrieve logs for a specific worker process.
 
 ## Project Structure
 
@@ -107,11 +127,11 @@ RabbitMQ is an open-source message broker that enables applications to communica
 
 ### How RabbitMQ Works in This API:
 
-1. Tasks are **published** to RabbitMQ via the `publish` endpoint.
+1. Messages are **published** to RabbitMQ via the `publish` endpoint.
 2. The message is stored in the **queue** until a worker is available to process it.
 3. Workers retrieve messages and process them asynchronously.
 4. Workers can be **scaled up or down** dynamically based on demand.
-5. Queues can be **cleared**, stopping all active workers and removing pending tasks.
+5. Queues can be **cleared**, stopping all active workers and removing pending messages.
 
 ### Useful Links:
 

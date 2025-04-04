@@ -1,43 +1,29 @@
 from .base import BaseWorker
-from app.config.logger import setup_logger
+from app.config.logger import LoggerSetup
 import os
 import json
 
-logger = setup_logger()
-
 class Worker1(BaseWorker):
     def __init__(self, channel, queue_name):
+        # Call the parent class's __init__ which already sets up the logger
         super().__init__(channel, queue_name)
-        self.pid = os.getpid()
-        self.logger = logger.bind(worker_type="worker1", pid=self.pid)
-        self.channel = channel
-        self.queue_name = queue_name
-        self.worker_type = 'worker1'
+        
+        # No need to create another logger instance since BaseWorker already does it
+        # Just bind additional context to the existing logger
+        self.logger = self.logger.bind(worker_name="worker1")
+        self.worker_name = 'worker1'
 
-    def process_message(self, channel, method, properties, body):
+    def process_message(self, ch, method, properties, body):
         try:
-            if isinstance(body, bytes):
-                body = body.decode('utf-8')
-            
-            message = json.loads(body)
-            message_worker_type = message.get("worker_type")
-            
-            if message_worker_type != self.worker_type:
-                self.logger.warning(f"Rejecting message - wrong worker type: {message_worker_type}")
-                channel.basic_reject(delivery_tag=method.delivery_tag, requeue=False)
-                return False
-            
-            task_id = message.get("task_id")
-            data = message.get("data")
-            
-            self.logger.info(f"Processing task {task_id}")
-            
-            # Process task logic here
-            
-            channel.basic_ack(delivery_tag=method.delivery_tag)
+            # Process the message
+            data = json.loads(body)  # Assuming the body is a JSON string
+            self.logger.info(f"Processing message: {data}")
+            # Your processing logic here
+            # Acknowledge the message if processed successfully
+            ch.basic_ack(delivery_tag=method.delivery_tag)
             return True
-            
         except Exception as e:
-            self.logger.error(f"Processing failed: {str(e)}")
-            channel.basic_reject(delivery_tag=method.delivery_tag, requeue=False)
+            self.logger.error(f"Error processing message: {str(e)}")
+            # Reject the message if processing fails
+            ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
             return False

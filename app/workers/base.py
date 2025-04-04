@@ -1,17 +1,22 @@
 from abc import ABC, abstractmethod
 import threading
 import uuid
-from loguru import logger
 import os
 import json
-from app.config.logger import setup_worker_logger
+from app.config.logger import LoggerSetup
 
 class BaseWorker(ABC):
     def __init__(self, channel, queue_name):
         self.channel = channel
         self.queue_name = queue_name
         self.pid = os.getpid()
-        self.logger = setup_worker_logger(self.pid)
+        
+        # Create an instance of LoggerSetup
+        logger_setup = LoggerSetup()
+        
+        # Use setup_worker_logger with PID for worker processes
+        self.logger = logger_setup.setup_worker_logger(self.pid)
+        
         self.consumer_tag = None
         self.thread = None
         self.is_running = True

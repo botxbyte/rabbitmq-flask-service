@@ -5,9 +5,19 @@ info:
   version: 1.0.0
 servers:
   - url: http://127.0.0.1:5000
+tags:
+  - name: Queue API
+    description: Operations related to queues
+  - name: Worker API
+    description: Operations related to workers
+  - name: Logs API
+    description: Operations related to logging
+
 paths:
   /queue/list:
     get:
+      tags:
+        - Queue API
       summary: List all queues and their workers
       responses:
         '200':
@@ -55,6 +65,8 @@ paths:
 
   /queue/create:
     post:
+      tags:
+        - Queue API
       summary: Create a new queue
       requestBody:
         required: true
@@ -86,89 +98,12 @@ paths:
                   error:
                     type: string
 
-  /queue/scale:
-    post:
-      summary: Scale the number of workers for a queue
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                worker_type:
-                  type: string
-                count:
-                  type: integer
-                queue_name:
-                  type: string
-      responses:
-        '200':
-          description: Workers scaled successfully
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Scaling workers to 5
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  error:
-                    type: string
-
-  /queue/workers/{queue_name}:
-    get:
-      summary: Get workers for a specific queue
-      parameters:
-        - name: queue_name
-          in: path
-          required: true
-          description: Name of the queue
-          schema:
-            type: string
-      responses:
-        '200':
-          description: List of workers for the specified queue
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  queue_name:
-                    type: string
-                  worker_count:
-                    type: integer
-                  workers:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        consumer_tag:
-                          type: string
-                        channel_details:
-                          type: object
-                        connection_details:
-                          type: object
-                        process_id:
-                          type: integer
-                        connection_pid:
-                          type: integer
-                        peer_port:
-                          type: integer
-                        node:
-                          type: string
-                        worker_status:
-                          type: string
-
+  
+  
   /queue/publish/{queue_name}:
     post:
+      tags:
+        - Queue API
       summary: Publish a task to a specific queue
       parameters:
         - name: queue_name
@@ -184,9 +119,7 @@ paths:
             schema:
               type: object
               properties:
-                worker_type:
-                  type: string
-                domain_name:
+                message:
                   type: string
       responses:
         '200':
@@ -200,7 +133,7 @@ paths:
                     type: string
                   queue:
                     type: string
-                  worker_type:
+                  worker_name:
                     type: string
                   domain:
                     type: string
@@ -218,6 +151,8 @@ paths:
 
   /queue/clear/{queue_name}:
     post:
+      tags:
+        - Queue API
       summary: Clear a specific queue
       parameters:
         - name: queue_name
@@ -251,3 +186,179 @@ paths:
                 properties:
                   error:
                     type: string
+
+  /queue/workers:
+    post:
+      tags:
+        - Worker API
+      summary: Find workers for a specific queue
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                queue_name:
+                  type: string
+      responses:
+        '200':
+          description: List of workers for the specified queue
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  queue_name:
+                    type: string
+                  worker_count:
+                    type: integer
+                  workers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        consumer_tag:
+                          type: string
+                        channel_details:
+                          type: object
+                        connection_details:
+                          type: object
+                        log_file:
+                          type: object
+                          properties:
+                            static_url:
+                              type: string
+                            full_url:
+                              type: string
+                            view_url:
+                              type: string
+                        ip_address:
+                          type: string
+                        pid:
+                          type: integer
+
+  /scale/{queue_name}:
+    post:
+      tags:
+        - Worker API
+      summary: Scale the number of workers for a queue
+      parameters:
+        - name: queue_name
+          in: path
+          required: true
+          description: Name of the queue to scale
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                worker_name:
+                  type: string
+                count:
+                  type: integer
+      responses:
+        '200':
+          description: Workers scaled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  queue_name:
+                    type: string
+                  worker_name:
+                    type: string
+                  previous_count:
+                    type: integer
+                  current_count:
+                    type: integer
+                  target_count:
+                    type: integer
+                  workers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        consumer_tag:
+                          type: string
+                        channel:
+                          type: string
+                        connection:
+                          type: string
+                        pid:
+                          type: integer
+                        worker_status:
+                          type: string
+                  workers_added:
+                    type: integer
+                  workers_removed:
+                    type: integer
+                  status:
+                    type: string
+                  success:
+                    type: boolean
+
+  /logs:
+    get:
+      tags:
+        - Logs API
+      summary: Retrieve logs
+      responses:
+        '200':
+          description: Logs retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logs:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
+  /logs/view:
+    get:
+      tags:
+        - Logs API
+      summary: View logs in HTML format
+      responses:
+        '200':
+          description: Logs viewed successfully in HTML
+          content:
+            text/html:
+              schema:
+                type: string
+
+  /static/{file_name}:
+    get:
+      tags:
+        - Logs API
+      summary: Serve static files
+      parameters:
+        - name: file_name
+          in: path
+          required: true
+          description: Name of the static file to serve
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Static file served successfully
+          content:
+            application/octet-stream:
+              schema:
+                type: string

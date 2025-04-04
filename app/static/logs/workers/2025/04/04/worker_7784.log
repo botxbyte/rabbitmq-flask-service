@@ -1,0 +1,3 @@
+2025-04-04 17:12:32 | INFO | Processing Message baaa5a94-8bb3-458e-9250-e5ca182a212e and message: {'message_id': 'baaa5a94-8bb3-458e-9250-e5ca182a212e', 'timestamp': '2025-04-04T17:11:46.030867', 'message': {'data': 'hello'}}
+2025-04-04 17:12:32 | INFO | Processing Message 715ed81a-8956-4655-934f-fa7049bf5e1a and message: {'message_id': '715ed81a-8956-4655-934f-fa7049bf5e1a', 'timestamp': '2025-04-04T17:12:13.440414', 'message': {'data': 'hello'}}
+2025-04-04 17:13:17 | INFO | Processing Message 4618df97-d041-43a9-8b81-a52e287a0a47 and message: {'message_id': '4618df97-d041-43a9-8b81-a52e287a0a47', 'timestamp': '2025-04-04T17:13:17.545112', 'message': {'data': 'hello'}}

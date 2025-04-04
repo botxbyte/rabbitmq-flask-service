@@ -17,12 +17,8 @@ RUN mkdir -p /app/static && chmod 777 /app/static
 # Copy all application code and files
 COPY . .
 
-# Copy Swagger files (ensuring they're in both locations)
+# Copy Swagger files to static directory (if not already in project root)
 COPY swagger.yaml /app/static/
 
-# Ensure start.sh is executable
-RUN chmod +x /app/start.sh
-
-# Set the startup script as the entrypoint
-ENTRYPOINT ["/bin/bash", "/app/start.sh"] 
-
+# Set default command to run your app
+CMD ["python", "app/run.py"]

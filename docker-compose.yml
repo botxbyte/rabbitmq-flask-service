@@ -23,7 +23,7 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks:
-      - rebbitmq-flask-service-network
+      - rabbitmq-flask-service-network
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
