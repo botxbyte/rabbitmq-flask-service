@@ -296,7 +296,7 @@ class WorkerRoutes:
                         "log_file": {
                             "static_url": static_url,
                             "full_url": full_url,
-                            "view_url": f"{request.host_url}queue/workers/view_logs/{worker_pid}",
+                            "view_url": f"{request.host_url}queue/workers/view-logs/{worker_pid}",
                         },
                         "ip_address": request.remote_addr,
                         "pid": worker_pid

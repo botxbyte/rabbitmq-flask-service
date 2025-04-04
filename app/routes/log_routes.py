@@ -69,7 +69,7 @@ class LogRoutes:
             return jsonify({"error": str(e)}), 500
 
     @staticmethod
-    @log_bp.route("/workers/view_logs/<pid>")
+    @log_bp.route("/workers/view-logs/<pid>")
     def view_logs(pid):
         """Render the log viewer page"""
         return render_template('log_viewer.html')

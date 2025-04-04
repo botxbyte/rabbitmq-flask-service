@@ -98,13 +98,11 @@ paths:
                   error:
                     type: string
 
-  
-  
   /queue/publish/{queue_name}:
     post:
       tags:
         - Queue API
-      summary: Publish a task to a specific queue
+      summary: Publish a message to a specific queue
       parameters:
         - name: queue_name
           in: path
@@ -123,7 +121,7 @@ paths:
                   type: string
       responses:
         '200':
-          description: Task published successfully
+          description: Message published successfully
           content:
             application/json:
               schema:
@@ -187,6 +185,39 @@ paths:
                   error:
                     type: string
 
+  /queue/delete/{queue_name}:
+    delete:
+      tags:
+        - Queue API
+      summary: Delete a specific queue
+      parameters:
+        - name: queue_name
+          in: path
+          required: true
+          description: Name of the queue to delete
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Queue deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Queue 'my_queue' deleted successfully
+        '404':
+          description: Queue not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+
   /queue/workers:
     post:
       tags:
@@ -238,7 +269,7 @@ paths:
                         pid:
                           type: integer
 
-  /scale/{queue_name}:
+  /queue/scale/{queue_name}:
     post:
       tags:
         - Worker API
@@ -303,11 +334,18 @@ paths:
                   success:
                     type: boolean
 
-  /logs:
+  /workers/logs/{pid}:
     get:
       tags:
         - Logs API
-      summary: Retrieve logs
+      summary: Retrieve logs for a specific worker process
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: PID of the worker
+          schema:
+            type: integer
       responses:
         '200':
           description: Logs retrieved successfully
@@ -316,12 +354,16 @@ paths:
               schema:
                 type: object
                 properties:
-                  logs:
+                  pid:
+                    type: integer
+                  log_file:
+                    type: string
+                  lines:
                     type: array
                     items:
                       type: string
-        '400':
-          description: Bad request
+        '404':
+          description: Log file not found
           content:
             application/json:
               schema:
@@ -330,14 +372,21 @@ paths:
                   error:
                     type: string
 
-  /logs/view:
+  /workers/view-logs/{pid}:
     get:
       tags:
         - Logs API
-      summary: View logs in HTML format
+      summary: Render the log viewer page for a specific worker process
+      parameters:
+        - name: pid
+          in: path
+          required: true
+          description: PID of the worker
+          schema:
+            type: integer
       responses:
         '200':
-          description: Logs viewed successfully in HTML
+          description: Log viewer page rendered successfully
           content:
             text/html:
               schema:

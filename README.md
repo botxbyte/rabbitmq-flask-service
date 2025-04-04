@@ -11,10 +11,10 @@ RabbitMQ is an open-source message broker that facilitates communication between
 ### Key Concepts
 
 - **Producer**: An application that sends messages to a queue.
-- **Consumer**: An application that receives messages from a queue.
-- **Queue**: A buffer that stores messages sent from producers until they are processed by consumers.
+- **Worker**: An application that receives messages from a queue.
+- **Queue**: A buffer that stores messages sent from producers until they are processed by workers.
 - **Exchange**: A routing mechanism that determines how messages are distributed to queues based on routing rules.
-- **Message**: The data sent between producers and consumers, which can represent tasks, notifications, or any other information.
+- **Message**: The data sent between producers and workers, which can represent tasks, notifications, or any other information.
 
 ## Features
 
@@ -92,6 +92,62 @@ RabbitMQ is an open-source message broker that facilitates communication between
 
 **Description:** Retrieve logs for a specific worker process.
 
+**Response:**
+
+```json
+{
+  "pid": 1234,
+  "log_file": "/path/to/log/file.log",
+  "lines": ["Log line 1", "Log line 2", ...]
+}
+```
+
+### 8. View Worker Logs
+
+**Endpoint:** `GET /workers/view-logs/<pid>`
+
+**Description:** Render the log viewer page for a specific worker process.
+
+**Purpose:** This endpoint allows users to view the logs of a specific worker in a web interface. It is useful for monitoring the worker's activity, debugging issues, and understanding how messages are being processed.
+
+## Creating a New Worker
+
+To create a new worker that processes messages, follow these steps:
+
+1. **Create a new Python file** in the `app/workers/` directory. For example, you can create `worker2.py`.
+
+2. **Define a new worker class** that inherits from `BaseWorker`. Here's a template you can use:
+
+```python
+from .base import BaseWorker
+from app.config.logger import LoggerSetup
+import json
+
+class Worker2(BaseWorker):
+    def __init__(self, channel, queue_name):
+        super().__init__(channel, queue_name)
+        self.logger = self.logger.bind(worker_name="worker2")
+        self.worker_name = 'worker2'
+
+    def process_message(self, ch, method, properties, body):
+        try:
+            data = json.loads(body)
+            self.logger.info(f"Processing message: {data}")
+            # Your processing logic here
+            ch.basic_ack(delivery_tag=method.delivery_tag)
+            return True
+        except Exception as e:
+            self.logger.error(f"Error processing message: {str(e)}")
+            ch.basic_nack(delivery_tag=method.delivery_tag, requeue=False)
+            return False
+```
+
+3. **Implement your message processing logic** in the `process_message` method.
+
+4. **Bind the logger** to your worker class for logging purposes.
+
+5. **Register your new worker** in the `WorkerRoutes` class to make it available for scaling and processing.
+
 ## Project Structure
 
 ```
@@ -123,7 +179,7 @@ RabbitMQ is an open-source message broker that enables applications to communica
 - **Exchanges**: Messages are routed to queues based on predefined rules.
 - **Bindings**: Links queues to exchanges, defining how messages should be directed.
 - **Producers**: Applications that send messages to RabbitMQ.
-- **Consumers (Workers)**: Applications that receive and process messages from queues.
+- **Workers**: Applications that receive and process messages from queues.
 
 ### How RabbitMQ Works in This API:
 
