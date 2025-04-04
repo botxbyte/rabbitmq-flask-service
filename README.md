@@ -4,6 +4,17 @@
 
 This Flask-based API manages RabbitMQ queues, allowing users to efficiently scale workers, publish tasks, clear queues, and monitor worker statuses.
 
+## What is RabbitMQ?
+
+RabbitMQ is an open-source message broker that facilitates communication between different parts of a system by sending messages between applications. It implements the Advanced Message Queuing Protocol (AMQP) and allows for reliable messaging, ensuring that messages are delivered even in the event of failures.
+
+### Key Concepts
+
+- **Producer**: An application that sends messages to a queue.
+- **Consumer**: An application that receives messages from a queue.
+- **Queue**: A buffer that stores messages sent from producers until they are processed by consumers.
+- **Exchange**: A routing mechanism that determines how messages are distributed to queues based on routing rules.
+
 ## Features
 
 - **Scalable Worker Management**: Dynamically increase or decrease the number of workers for specific queues.
