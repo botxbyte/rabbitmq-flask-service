@@ -51,17 +51,11 @@ This Flask-based API manages RabbitMQ queues, allowing users to efficiently scal
 
 ### 4. Get All Active Workers
 
-**Endpoint:** `GET /queue/worker`
+**Endpoint:** `GET /queue/workers`
 
 **Description:** Retrieve details of all active workers.
 
-### 5. Get Workers by Type
-
-**Endpoint:** `GET /queue/based-worker/{worker_type}`
-
-**Description:** Retrieve details of workers based on their type.
-
-### 6. Get Workers for a Specific Queue
+### 5. Get Workers for a Specific Queue
 
 **Endpoint:** `GET /queue/workers/{queue_name}`
 
