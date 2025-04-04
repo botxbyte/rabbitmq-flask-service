@@ -1,0 +1,15 @@
+2025-04-04 10:33:34 | INFO | Log path generated: app\static\logs\workers\2025\04\04\worker_20952.log
+2025-04-04 10:33:37 | INFO | Log path generated: app\static\logs\workers\2025\04\04\worker_20952.log
+2025-04-04 10:33:40 | INFO | Log path generated: app\static\logs\workers\2025\04\04\worker_20952.log
+2025-04-04 10:33:43 | INFO | Log path generated: app\static\logs\workers\2025\04\04\worker_20952.log
+2025-04-04 10:33:46 | INFO | Log path generated: app\static\logs\workers\2025\04\04\worker_20952.log
+2025-04-04 10:33:49 | INFO | Log path generated: app\static\logs\workers\2025\04\04\worker_20952.log
+2025-04-04 10:34:06 | INFO | Starting worker process 19528 for queue urls_queue
+2025-04-04 10:36:27 | INFO | Log path generated: app\static\logs\workers\2025\04\04\worker_19528.log
+2025-04-04 10:36:27 | INFO | Streaming logs from: app\static\logs\workers\2025\04\04\worker_19528.log
+2025-04-04 10:36:35 | INFO | Log path generated: app\static\logs\workers\2025\04\04\worker_19528.log
+2025-04-04 10:36:35 | INFO | Streaming logs from: app\static\logs\workers\2025\04\04\worker_19528.log
+2025-04-04 10:36:58 | INFO | Starting worker process 23868 for queue urls_queue
+2025-04-04 10:38:14 | INFO | Log path generated: app\static\logs\workers\2025\04\04\worker_23868.log
+2025-04-04 10:38:14 | INFO | Streaming logs from: app\static\logs\workers\2025\04\04\worker_23868.log
+2025-04-04 10:41:49 | INFO | Starting worker process 14716 for queue urls_queue

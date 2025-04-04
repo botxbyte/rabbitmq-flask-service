@@ -1,6 +1,6 @@
 # app/routes.py
 import json
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, render_template, Response
 import pika
 from app.rabbitmq import get_rabbitmq_connection
 import os
@@ -16,6 +16,7 @@ import inspect
 from pathlib import Path
 from app.workers.base import BaseWorker
 from flask import Flask, send_from_directory
+import collections
 
 STATIC_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 
@@ -224,10 +225,14 @@ def get_log_path(pid=None):
 
     filename = "worker"
     if pid:
-        filename += f"_{pid}"
-    filename += f"_{current_date.strftime('%Y%m%d')}.log"
+        filename += f"_{pid}"  # Append the PID if provided
+    # Remove the timestamp from the filename
+    filename += ".log"  # Change to just .log
 
-    return os.path.join(base_path, filename)
+    log_path = os.path.join(base_path, filename)
+    logger.info(f"Log path generated: {log_path}")  # Log the generated log path
+
+    return log_path
 
 # Function to get the full URL and static path
 def get_log_file_link(pid=None):
@@ -246,7 +251,61 @@ def get_log_file_link(pid=None):
 
     return full_path, static_url, full_url
 
-# Endpoint to include full URL and IP
+@queue_bp.route("/queue/workers/logs/<pid>", methods=["GET"])
+def tail_logs(pid):
+    try:
+        lines = request.args.get('lines', default=100, type=int)
+        log_path = get_log_path(pid)
+        
+        if not os.path.exists(log_path):
+            return jsonify({"error": "Log file not found"}), 404
+            
+        # Read the last N lines in reverse order
+        with open(log_path, 'r') as f:
+            # Read all lines and store in a deque with max size
+            log_lines = collections.deque(f, lines)
+            
+        return jsonify({
+            "pid": pid,
+            "log_file": log_path,
+            "lines": list(log_lines)[::-1]  # Reverse order - newest first
+        }), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@queue_bp.route("/queue/workers/view_logs/<pid>")
+def view_logs(pid):
+    """Render the log viewer page"""
+    return render_template('log_viewer.html')
+
+@queue_bp.route("/queue/workers/stream_logs/<pid>")
+def stream_logs(pid):
+    """Stream logs using server-sent events"""
+    def generate():
+        try:
+            log_path = get_log_path(pid)
+            logger.info(f"Streaming logs from: {log_path}")
+            if not os.path.exists(log_path):
+                yield "data: Log file not found\n\n"
+                return
+
+            with open(log_path, 'r') as f:
+                # Move to the end of the file
+                f.seek(0, os.SEEK_END)  # Start reading from the end of the file
+
+                while True:
+                    line = f.readline()
+                    if line:
+                        yield f"data: {line.strip()}\n\n"
+                    else:
+                        # No new lines, wait a bit before checking again
+                        time.sleep(0.5)
+
+        except Exception as e:
+            yield f"data: Error reading logs: {str(e)}\n\n"
+
+    return Response(generate(), mimetype='text/event-stream')
+
 @queue_bp.route("/queue/workers", methods=["POST"])
 def find_queue_workers():
     try:
@@ -263,21 +322,33 @@ def find_queue_workers():
             return jsonify({"error": "Failed to fetch workers"}), response.status_code
         
         consumers = response.json()
-        queue_workers = [
-            {
-                "consumer_tag": consumer["consumer_tag"],
-                "channel_details": consumer["channel_details"],
-                "connection_details": consumer.get("connection_details", {}),
-                "log_file": {
-                    # "full_path": get_log_file_link(consumer.get("pid"))[0],
-                    "static_url": get_log_file_link(consumer.get("pid"))[1],
-                    "full_url": get_log_file_link(consumer.get("pid"))[2]  # Full URL
-                },
-                "ip_address": request.remote_addr
-            }
-            for consumer in consumers
-            if consumer["queue"]["name"] == queue_name
-        ]
+        queue_workers = []
+        
+        for consumer in consumers:
+            if consumer["queue"]["name"] == queue_name:
+                consumer_tag = consumer["consumer_tag"]
+                logger.info(f"Consumer Tag: {consumer_tag}")  # Log the consumer tag
+                
+                worker_pid = None
+                if '_' in consumer_tag:
+                    try:
+                        worker_pid = int(consumer_tag.split('_')[1])
+                    except (IndexError, ValueError):
+                        logger.error(f"Could not extract PID from consumer tag: {consumer_tag}")
+                
+                worker_info = {
+                    "consumer_tag": consumer_tag,
+                    "channel_details": consumer["channel_details"],
+                    "connection_details": consumer.get("connection_details", {}),
+                    "log_file": {
+                        "static_url": get_log_file_link(worker_pid)[1],
+                        "full_url": get_log_file_link(worker_pid)[2],
+                        "view_url": f"{request.host_url}/queue/workers/view_logs/{worker_pid}",
+                    },
+                    "ip_address": request.remote_addr,
+                    "pid": worker_pid
+                }
+                queue_workers.append(worker_info)
         
         return jsonify({
             "queue_name": queue_name,
@@ -285,14 +356,9 @@ def find_queue_workers():
             "workers": queue_workers
         }), 200
     except Exception as e:
+        logger.error(f"Error in find_queue_workers: {str(e)}")
         return jsonify({"error": str(e)}), 500
             
-# @queue_bp.route('/logs/workers/<path:filename>', methods=['GET'])
-# def serve_log_file(filename):
-#     try:
-#         return send_from_directory(os.path.join("logs", "workers"), filename, as_attachment=True)
-#     except FileNotFoundError:
-#         return jsonify({"error": "Log file not found"}), 404
 
 
 # Global worker registry

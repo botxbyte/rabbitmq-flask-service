@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Log Viewer</title>
+    <style>
+        body {
+            font-family: 'Monaco', 'Consolas', monospace;
+            margin: 0;
+            padding: 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+        }
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #2d2d2d;
+            padding: 10px 20px;
+            border-bottom: 1px solid #3d3d3d;
+            z-index: 1000;
+        }
+        .header h2 {
+            margin: 0;
+            color: #fff;
+        }
+        .header .info {
+            font-size: 0.9em;
+            color: #888;
+        }
+        #log-container {
+            margin-top: 100px;
+            padding: 10px;
+            background: #1e1e1e;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .log-entry {
+            margin: 2px 0;
+            padding: 2px 5px;
+            border-left: 3px solid transparent;
+        }
+        .log-entry:hover {
+            background: #2d2d2d;
+            border-left-color: #007acc;
+        }
+        .log-entry.error { color: #f44336; }
+        .log-entry.warn { color: #ffa726; }
+        .log-entry.info { color: #29b6f6; }
+        .controls {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            right: 0;
+            background: #2d2d2d;
+            padding: 10px 20px;
+            border-bottom: 1px solid #3d3d3d;
+        }
+        .controls button {
+            background: #007acc;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .controls button:hover {
+            background: #005c99;
+        }
+        .controls button.active {
+            background: #00a86b;
+        }
+        #status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 5px;
+            background: #888;
+        }
+        #status-indicator.connected {
+            background: #00a86b;
+        }
+        #status-indicator.disconnected {
+            background: #f44336;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>Worker Log Viewer</h2>
+        <div class="info">
+            <span id="status-indicator"></span>
+            Worker PID: <span id="worker-pid"></span> | 
+            Queue: <span id="queue-name"></span>
+        </div>
+    </div>
+    <div class="controls">
+        <button id="toggle-stream">Pause Stream</button>
+        <button id="clear-logs">Clear View</button>
+        <span id="connection-status">Connected</span>
+    </div>
+    <div id="log-container"></div>
+
+    <script>
+        // Get the worker PID from the URL path
+        const pathParts = window.location.pathname.split('/');
+        const workerPid = pathParts[pathParts.length - 1]; // Assuming the last part is the PID
+        console.log(workerPid, 'workerPid');
+        document.getElementById('worker-pid').textContent = workerPid;
+        
+        let isStreaming = true;
+        let eventSource = null;
+        
+        function startEventStream() {
+            if (eventSource) {
+                eventSource.close();
+            }
+
+            eventSource = new EventSource(`/queue/workers/stream_logs/${workerPid}`);
+            
+            eventSource.onmessage = function(event) {
+                if (!isStreaming) return;
+                
+                const logEntry = document.createElement('div');
+                logEntry.className = 'log-entry';
+                
+                // Parse the log entry to detect log levels
+                const data = event.data;
+                if (data.includes('ERROR')) {
+                    logEntry.classList.add('error');
+                } else if (data.includes('WARN')) {
+                    logEntry.classList.add('warn');
+                } else if (data.includes('INFO')) {
+                    logEntry.classList.add('info');
+                }
+                
+                logEntry.textContent = data;
+                document.getElementById('log-container').insertBefore(logEntry, document.getElementById('log-container').firstChild);
+            };
+
+            eventSource.onopen = function() {
+                document.getElementById('status-indicator').className = 'connected';
+                document.getElementById('connection-status').textContent = 'Connected';
+            };
+
+            eventSource.onerror = function() {
+                document.getElementById('status-indicator').className = 'disconnected';
+                document.getElementById('connection-status').textContent = 'Disconnected - Retrying...';
+            };
+        }
+
+        document.getElementById('toggle-stream').addEventListener('click', function() {
+            isStreaming = !isStreaming;
+            this.textContent = isStreaming ? 'Pause Stream' : 'Resume Stream';
+            this.className = isStreaming ? '' : 'active';
+        });
+
+        document.getElementById('clear-logs').addEventListener('click', function() {
+            document.getElementById('log-container').innerHTML = '';
+        });
+
+        // Start streaming when page loads
+        startEventStream();
+    </script>
+</body>
+</html> 

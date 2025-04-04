@@ -1,0 +1,26 @@
+2025-04-04 10:34:05 | INFO | PID:22700 | Started worker process 19528
+2025-04-04 10:34:26 | INFO | PID:22700 | Consumer Tag: worker_19528
+2025-04-04 10:34:26 | INFO | PID:22700 | Log path generated: app\static\logs\workers\2025\04\04\worker_19528.log
+2025-04-04 10:34:26 | INFO | PID:22700 | Log path generated: app\static\logs\workers\2025\04\04\worker_19528.log
+2025-04-04 10:34:46 | INFO | PID:22700 | Log path generated: app\static\logs\workers\2025\04\04\worker_19528.log
+2025-04-04 10:34:57 | INFO | PID:22700 | Queue: urls_queue, Worker type: worker1
+2025-04-04 10:34:57 | INFO | PID:22700 | Found 1 matching workers
+2025-04-04 10:34:58 | INFO | PID:22700 | Published worker1 task to urls_queue: 9c456f56-2181-42f9-a861-3225f667d4df
+2025-04-04 10:36:45 | INFO | PID:4396 | Queue: urls_queue, Worker type: worker1
+2025-04-04 10:36:45 | INFO | PID:4396 | Found 0 matching workers
+2025-04-04 10:36:57 | INFO | PID:4396 | Started worker process 23868
+2025-04-04 10:37:13 | INFO | PID:4396 | Log path generated: app\static\logs\workers\2025\04\04\worker_23868.log
+2025-04-04 10:37:13 | INFO | PID:4396 | Streaming logs from: app\static\logs\workers\2025\04\04\worker_23868.log
+2025-04-04 10:37:18 | INFO | PID:4396 | Queue: urls_queue, Worker type: worker1
+2025-04-04 10:37:18 | INFO | PID:4396 | Found 1 matching workers
+2025-04-04 10:37:18 | INFO | PID:4396 | Published worker1 task to urls_queue: 5363ac2e-c94a-4bac-8536-c4e0d6653a2a
+2025-04-04 10:37:36 | INFO | PID:4396 | Queue: urls_queue, Worker type: worker1
+2025-04-04 10:37:36 | INFO | PID:4396 | Found 1 matching workers
+2025-04-04 10:37:36 | INFO | PID:4396 | Published worker1 task to urls_queue: cbda1060-b713-4c7d-8cea-aaed07620ead
+2025-04-04 10:37:52 | INFO | PID:4396 | Queue: urls_queue, Worker type: worker1
+2025-04-04 10:37:52 | INFO | PID:4396 | Found 1 matching workers
+2025-04-04 10:37:52 | INFO | PID:4396 | Published worker1 task to urls_queue: d086c625-26f5-4ca8-b59e-d4bdb8c75163
+2025-04-04 10:41:48 | INFO | PID:17524 | Started worker process 14716
+2025-04-04 10:42:04 | INFO | PID:17524 | Consumer Tag: worker_14716
+2025-04-04 10:42:04 | INFO | PID:17524 | Log path generated: app\static\logs\workers\2025\04\04\worker_14716.log
+2025-04-04 10:42:04 | INFO | PID:17524 | Log path generated: app\static\logs\workers\2025\04\04\worker_14716.log
