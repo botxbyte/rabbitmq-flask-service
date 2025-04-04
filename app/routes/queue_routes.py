@@ -44,8 +44,8 @@ class QueueRoutes:
             for queue in queues:
                 queue_workers = [
                     {
-                        "consumer_tag": consumer["consumer_tag"],
-                        "channel_details": consumer["channel_details"],
+                        "consumer_tag": consumer.get("consumer_tag"),
+                        "channel_details": consumer("channel_details"),
                         "connection_details": consumer.get("connection_details", {}),
                         "pid": consumer.get("channel_details", {}).get("peer_port")
                     }
