@@ -24,7 +24,6 @@ class QueueRoutes:
         try:
             # Get queues
             queues_url = f"http://{RABBITMQ_HOST}:{RABBITMQ_API_PORT}/api/queues"
-            print(queues_url, 'queues_url')
             queues_response = requests.get(queues_url, auth=RABBITMQ_AUTH)
             
             if queues_response.status_code != 200:
@@ -45,22 +44,22 @@ class QueueRoutes:
                 queue_workers = [
                     {
                         "consumer_tag": consumer.get("consumer_tag"),
-                        "channel_details": consumer("channel_details"),
+                        "channel_details": consumer.get("channel_details"),
                         "connection_details": consumer.get("connection_details", {}),
                         "pid": consumer.get("channel_details", {}).get("peer_port")
                     }
                     for consumer in consumers
-                    if consumer["queue"]["name"] == queue["name"]
+                    if consumer.get("queue", {}).get("name") == queue.get("name")
                 ]
                 
                 queue_details.append({
-                    "name": queue["name"],
-                    "messages": queue["messages"],
-                    "messages_ready": queue["messages_ready"],
-                    "messages_unacknowledged": queue["messages_unacknowledged"],
+                    "name": queue.get("name"),
+                    "messages": queue.get("messages"),
+                    "messages_ready": queue.get("messages_ready"),
+                    "messages_unacknowledged": queue.get("messages_unacknowledged"),
                     "worker_count": len(queue_workers),
                     "workers": queue_workers,
-                    "worker_pids": [w["pid"] for w in queue_workers]
+                    "worker_pids": [w.get("pid") for w in queue_workers]
                 })
 
             return jsonify({
@@ -98,7 +97,7 @@ class QueueRoutes:
     def delete_queue(queue_name):
         try:
             # Define vhost and encode it
-            vhost = "/"  # Your RabbitMQ virtual host
+            # vhost = "/"  # Your RabbitMQ virtual host
             encoded_vhost = "%2F"  # URL-encoded version of '/'
 
             # Build URL to list all queues in the vhost
@@ -110,7 +109,7 @@ class QueueRoutes:
                 return jsonify({"error": "Failed to fetch queues"}), queues_response.status_code
 
             queues = queues_response.json()
-            queue_exists = any(queue["name"] == queue_name for queue in queues)
+            queue_exists = any(queue.get("name") == queue_name for queue in queues)
 
             if not queue_exists:
                 return jsonify({"error": f"Queue '{queue_name}' not found"}), 404
@@ -151,7 +150,7 @@ class QueueRoutes:
                 return jsonify({"error": "Failed to fetch queues"}), queues_response.status_code
             
             queues = queues_response.json()
-            queue_exists = any(queue["name"] == queue_name for queue in queues)
+            queue_exists = any(queue.get("name") == queue_name for queue in queues)
 
             if not queue_exists:
                 return jsonify({"error": f"Queue '{queue_name}' not found"}), 404
@@ -177,12 +176,12 @@ class QueueRoutes:
             )
             
             connection.close()
-            logger.info(f"Published message to {queue_name}: {message_data['message_id']}")
+            logger.info(f"Published message to {queue_name}: {message_data.get('message_id')}")
             
             return jsonify({
                 "message": "Message published successfully",
                 "queue": queue_name,
-                "message_id": message_data["message_id"]
+                "message_id": message_data.get("message_id")
             }), 200
             
         except Exception as e:

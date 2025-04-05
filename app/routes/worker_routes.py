@@ -111,8 +111,8 @@ class WorkerRoutes:
             queue_workers = []
             
             for consumer in consumers:
-                if consumer["queue"]["name"] == queue_name:
-                    consumer_tag = consumer["consumer_tag"]
+                if consumer.get("queue", {}).get("name") == queue_name:
+                    consumer_tag = consumer.get("consumer_tag")
                     worker_pid = None
                     if '_' in consumer_tag:
                         try:
@@ -122,7 +122,7 @@ class WorkerRoutes:
                     
                     worker_info = {
                         "consumer_tag": consumer_tag,
-                        "channel_details": consumer["channel_details"],
+                        "channel_details": consumer.get("channel_details"),
                         "connection_details": consumer.get("connection_details", {}),
                         "pid": worker_pid
                     }
@@ -169,7 +169,7 @@ class WorkerRoutes:
 
             current_workers = [
                 w for w in response.json() 
-                if w["queue"]["name"] == queue_name
+                if w.get("queue", {}).get("name") == queue_name
             ]
             current_count = len(current_workers)
 
@@ -177,7 +177,7 @@ class WorkerRoutes:
             if current_count > desired_count:
                 for worker in current_workers[:current_count - desired_count]:
                     try:
-                        consumer_tag = worker["consumer_tag"]
+                        consumer_tag = worker.get("consumer_tag")
                         pid = int(consumer_tag.split('_')[1]) if '_' in consumer_tag else None
                         
                         if pid and pid in worker_processes:
@@ -217,14 +217,14 @@ class WorkerRoutes:
             if verify_response.status_code == 200:
                 consumers = verify_response.json()
                 for w in consumers:
-                    if w["queue"]["name"] == queue_name:
-                        consumer_tag = w["consumer_tag"]
+                    if w.get("queue", {}).get("name") == queue_name:
+                        consumer_tag = w.get("consumer_tag")
                         pid = int(consumer_tag.split('_')[1]) if '_' in consumer_tag else None
                         
                         if pid and pid in worker_processes:
                             final_workers.append({
                                 "consumer_tag": consumer_tag,
-                                "channel": w["channel_details"]["name"],
+                                "channel": w.get("channel_details", {}).get("name"),
                                 "connection": w.get("connection_details", {}).get("name", ""),
                                 "pid": pid,
                                 "worker_status": "active"
@@ -275,8 +275,8 @@ class WorkerRoutes:
             queue_workers = []
             
             for consumer in consumers:
-                if consumer["queue"]["name"] == queue_name:
-                    consumer_tag = consumer["consumer_tag"]
+                if consumer.get("queue", {}).get("name") == queue_name:
+                    consumer_tag = consumer.get("consumer_tag")
                     logger.info(f"Consumer Tag: {consumer_tag}")
                     
                     worker_pid = None
@@ -291,7 +291,7 @@ class WorkerRoutes:
                     
                     worker_info = {
                         "consumer_tag": consumer_tag,
-                        "channel_details": consumer["channel_details"],
+                        "channel_details": consumer.get("channel_details"),
                         "connection_details": consumer.get("connection_details", {}),
                         "log_file": {
                             "static_url": static_url,
