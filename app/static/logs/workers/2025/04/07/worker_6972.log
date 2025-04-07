@@ -1,0 +1,3 @@
+2025-04-07 17:24:39 | INFO | Worker1 initialized and ready to process messages
+2025-04-07 17:24:42 | INFO | Started worker1 on queue: urls_queue
+2025-04-07 17:24:42 | INFO | Started worker1 with PID: 6972, queue: urls_queue

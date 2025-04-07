@@ -1,0 +1,8 @@
+2025-04-06 20:43:59 | INFO | Worker2 initialized and ready to process messages
+2025-04-06 20:43:59 | INFO | Started worker2 on queue: graph_queue
+2025-04-06 20:43:59 | INFO | Started worker2 with PID: 13036, queue: graph_queue
+2025-04-06 20:44:12 | INFO | Worker2 starting message processing
+2025-04-06 20:44:12 | INFO | Processing message in Worker2: {'message_id': '1027e960-34a7-4672-a785-7dc2032904c6', 'timestamp': '2025-04-06T20:44:12.751162', 'worker_sequence': ['worker1', 'worker2'], 'worker_queues': ['urls_queue', 'graph_queue'], 'current_worker_index': 1, 'message': {'data': 'hello'}, 'source': {'worker_name': 'worker1', 'queue': 'urls_queue', 'worker_id': '10072_1743952419'}}
+2025-04-06 20:44:12 | INFO | Worker2 performing message processing...
+2025-04-06 20:44:12 | INFO | Worker2 successfully processed message
+2025-04-06 20:44:12 | INFO | Message processing completed successfully in Worker2: {'message_id': '1027e960-34a7-4672-a785-7dc2032904c6', 'timestamp': '2025-04-06T20:44:12.751162', 'worker_sequence': ['worker1', 'worker2'], 'worker_queues': ['urls_queue', 'graph_queue'], 'current_worker_index': 1, 'message': {'data': 'hello'}, 'source': {'worker_name': 'worker1', 'queue': 'urls_queue', 'worker_id': '10072_1743952419'}}

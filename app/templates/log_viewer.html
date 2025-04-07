@@ -122,7 +122,7 @@
                 eventSource.close();
             }
 
-            eventSource = new EventSource(`/queue/workers/stream_logs/${workerPid}`);
+            eventSource = new EventSource(`/logs/workers/stream_logs/${workerPid}`);
             
             eventSource.onmessage = function(event) {
                 if (!isStreaming) return;

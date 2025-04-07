@@ -1,0 +1,5 @@
+2025-04-07 11:58:12 | INFO | Worker1 initialized and ready to process messages
+2025-04-07 11:58:15 | INFO | Started worker1 on queue: urls_queue
+2025-04-07 11:58:15 | INFO | Started worker1 with PID: 12588, queue: urls_queue
+2025-04-07 11:58:35 | INFO | Processing message: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:58:35.347499', 'message_id': 'ebe909b9-7bba-41aa-8bc6-cb4ee2e7a422'}
+2025-04-07 11:58:35 | INFO | Message processing completed successfully for data: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:58:35.347499', 'message_id': 'ebe909b9-7bba-41aa-8bc6-cb4ee2e7a422'}

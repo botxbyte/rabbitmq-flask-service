@@ -1,0 +1,18 @@
+2025-04-06 01:19:57 | INFO | Worker1 initialized and ready to process messages
+2025-04-06 01:19:57 | INFO | Setting up worker queue: urls_queue_worker1
+2025-04-06 01:19:57 | INFO | Successfully set up worker queue: urls_queue_worker1
+2025-04-06 01:19:57 | INFO | Base Worker: Starting worker for queue: urls_queue_worker1
+2025-04-06 01:19:57 | INFO | Base Worker: Will only process messages after 2025-04-06T01:19:57.748380
+2025-04-06 01:19:57 | INFO | Base Worker: Skipping old message from 2025-04-06T01:18:19.218075 (worker started at 2025-04-06T01:19:57.748380)
+2025-04-06 01:19:57 | INFO | Base Worker: Started worker1 with PID: 23972, consumer_tag: worker1_23972_1743882597, queue: urls_queue_worker1
+2025-04-06 01:19:57 | INFO | Started worker1 with PID: 23972, queue: urls_queue
+2025-04-06 01:20:19 | INFO | Base Worker: Processing message with sequence ['worker1', 'worker2'], current index 0
+2025-04-06 01:20:19 | INFO | Processing message: {'message': {'data': 'hello'}, 'worker_config': {'sequence': ['worker1', 'worker2']}, 'timestamp': '2025-04-06T01:20:19.719902'}
+2025-04-06 01:20:19 | INFO | Message processing completed successfully for data: {'message': {'data': 'hello'}, 'worker_config': {'sequence': ['worker1', 'worker2']}, 'timestamp': '2025-04-06T01:20:19.719902'}
+2025-04-06 01:20:19 | INFO | Base Worker: Process message result: True
+2025-04-06 01:20:19 | INFO | Base Worker: Message processed successfully
+2025-04-06 01:20:19 | INFO | Base Worker: Forwarding to next worker worker2
+2025-04-06 01:20:19 | INFO | Forwarding message to worker2 via queue graph_queue_worker2
+2025-04-06 01:20:19 | INFO | Successfully forwarded message to worker2
+2025-04-06 01:20:19 | INFO | Base Worker: Message forwarded to worker2
+2025-04-06 01:20:19 | INFO | Base Worker: Current message acknowledged

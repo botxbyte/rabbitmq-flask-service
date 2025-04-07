@@ -1,0 +1,2 @@
+2025-04-05 21:21:54 | INFO | Processing message: {'message_id': 'e418dac6-55bb-4bf1-aed3-5aad1babe266', 'timestamp': '2025-04-05T21:21:54.051089', 'message': {'data': 'hello'}}
+2025-04-05 21:21:54 | INFO | Message processing completed successfully for data: {'message_id': 'e418dac6-55bb-4bf1-aed3-5aad1babe266', 'timestamp': '2025-04-05T21:21:54.051089', 'message': {'data': 'hello'}}

@@ -8,7 +8,7 @@ def create_app():
     
     # Register all blueprints with their URL prefixes
     app.register_blueprint(queue_bp, url_prefix='/queue')
-    app.register_blueprint(worker_bp, url_prefix='/queue')
-    app.register_blueprint(log_bp, url_prefix='/queue')
+    app.register_blueprint(worker_bp, url_prefix='/worker')
+    app.register_blueprint(log_bp, url_prefix='/logs')
     
     return app

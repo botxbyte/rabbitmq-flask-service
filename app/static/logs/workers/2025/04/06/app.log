@@ -1,0 +1,128 @@
+2025-04-06 00:45:48 | INFO | PID:21812 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 00:45:50 | INFO | PID:25436 | Purged queue urls_queue before starting worker
+2025-04-06 00:45:50 | INFO | PID:21812 | Started worker process 25436
+2025-04-06 00:46:02 | INFO | PID:21812 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 00:46:04 | INFO | PID:21812 | Started worker process 14916
+2025-04-06 00:46:04 | INFO | PID:14916 | Purged queue graph_queue before starting worker
+2025-04-06 00:46:20 | INFO | PID:21812 | Published message to urls_queue: 87a92317-f1a6-445b-9707-ef12f5723593
+2025-04-06 00:46:20 | INFO | PID:21812 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-06 00:46:22 | INFO | PID:21812 | Found 1 existing workers for worker1 on urls_queue
+2025-04-06 00:47:15 | INFO | PID:20412 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 00:47:17 | INFO | PID:22960 | Purged queue graph_queue before starting worker
+2025-04-06 00:47:17 | INFO | PID:20412 | Started worker process 22960
+2025-04-06 00:47:30 | INFO | PID:20412 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 00:47:32 | INFO | PID:20412 | Started worker process 23860
+2025-04-06 00:47:32 | INFO | PID:23860 | Purged queue urls_queue before starting worker
+2025-04-06 00:48:25 | INFO | PID:20412 | Published message to urls_queue: 10013af2-73a5-4bcf-a1a0-23388a1768a6
+2025-04-06 00:48:25 | INFO | PID:20412 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-06 00:48:27 | INFO | PID:20412 | Found 1 existing workers for worker1 on urls_queue
+2025-04-06 00:53:11 | INFO | PID:1724 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 00:53:12 | INFO | PID:16748 | Purged queue urls_queue before starting worker
+2025-04-06 00:53:13 | INFO | PID:1724 | Started worker process 16748
+2025-04-06 00:53:25 | INFO | PID:1724 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 00:53:26 | INFO | PID:8788 | Purged queue graph_queue before starting worker
+2025-04-06 00:53:27 | INFO | PID:1724 | Started worker process 8788
+2025-04-06 00:54:24 | INFO | PID:1724 | Published message to urls_queue: 2b85126d-cb97-4b47-a4de-61cccd211d5d
+2025-04-06 00:54:24 | INFO | PID:1724 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-06 00:54:26 | INFO | PID:1724 | Found 1 existing workers for worker1 on urls_queue
+2025-04-06 00:56:58 | INFO | PID:6980 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 00:56:59 | INFO | PID:6932 | Purged queue graph_queue before starting worker
+2025-04-06 00:57:00 | INFO | PID:6980 | Started worker process 6932
+2025-04-06 00:57:15 | INFO | PID:6980 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 00:57:17 | INFO | PID:7148 | Purged queue urls_queue before starting worker
+2025-04-06 00:57:17 | INFO | PID:6980 | Started worker process 7148
+2025-04-06 00:57:43 | INFO | PID:6980 | Published message to urls_queue: 6920c696-c104-4cc6-a579-dbdb0709f255
+2025-04-06 00:57:43 | INFO | PID:6980 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-06 00:57:45 | INFO | PID:6980 | Found 1 existing workers for worker1 on urls_queue
+2025-04-06 01:00:02 | INFO | PID:12404 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 01:00:03 | INFO | PID:17596 | Purged queue urls_queue before starting worker
+2025-04-06 01:00:04 | INFO | PID:12404 | Started worker process 17596
+2025-04-06 01:00:17 | INFO | PID:12404 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 01:00:19 | INFO | PID:5512 | Purged queue graph_queue before starting worker
+2025-04-06 01:00:19 | INFO | PID:12404 | Started worker process 5512
+2025-04-06 01:00:44 | INFO | PID:12404 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 01:00:45 | INFO | PID:20324 | Purged queue graph_queue before starting worker
+2025-04-06 01:00:46 | INFO | PID:12404 | Started worker process 20324
+2025-04-06 01:02:42 | INFO | PID:20784 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 01:02:44 | INFO | PID:8444 | Purged queue graph_queue before starting worker
+2025-04-06 01:02:45 | INFO | PID:20784 | Started worker process 8444
+2025-04-06 01:05:08 | INFO | PID:21568 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 01:05:09 | INFO | PID:6476 | Purged queue urls_queue before starting worker
+2025-04-06 01:05:11 | ERROR | PID:21568 | Error starting worker: Worker process failed to start
+2025-04-06 01:06:48 | INFO | PID:19096 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 01:06:50 | INFO | PID:20948 | Purged queue urls_queue before starting worker
+2025-04-06 01:06:51 | ERROR | PID:19096 | Error starting worker: Worker process failed to start
+2025-04-06 01:09:15 | INFO | PID:14168 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 01:09:16 | INFO | PID:24480 | Purged queue urls_queue before starting worker
+2025-04-06 01:09:18 | INFO | PID:14168 | Started worker process 24480
+2025-04-06 01:09:48 | INFO | PID:19268 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 01:09:49 | INFO | PID:5656 | Purged queue urls_queue before starting worker
+2025-04-06 01:09:51 | INFO | PID:19268 | Started worker process 5656
+2025-04-06 01:10:03 | INFO | PID:19268 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 01:10:04 | INFO | PID:19736 | Purged queue graph_queue before starting worker
+2025-04-06 01:10:06 | INFO | PID:19268 | Started worker process 19736
+2025-04-06 01:10:38 | INFO | PID:19268 | Published message to urls_queue: b4167054-1bb7-47ab-a651-4236670d8899
+2025-04-06 01:10:38 | INFO | PID:19268 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-06 01:10:40 | INFO | PID:19268 | Found 1 existing workers for worker1 on urls_queue
+2025-04-06 01:13:25 | INFO | PID:10448 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 01:13:26 | INFO | PID:6864 | Purged queue graph_queue before starting worker
+2025-04-06 01:13:28 | INFO | PID:10448 | Started worker process 6864
+2025-04-06 01:13:39 | INFO | PID:10448 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 01:13:40 | INFO | PID:9412 | Purged queue urls_queue before starting worker
+2025-04-06 01:13:42 | INFO | PID:10448 | Started worker process 9412
+2025-04-06 01:14:01 | INFO | PID:10448 | Published message to urls_queue: 87f77551-c42a-47be-b5a3-ec3c55f63199
+2025-04-06 01:14:01 | INFO | PID:10448 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-06 01:14:03 | INFO | PID:10448 | Found 1 existing workers for worker1 on urls_queue
+2025-04-06 01:17:49 | INFO | PID:19868 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 01:17:50 | INFO | PID:15848 | Purged queue urls_queue before starting worker
+2025-04-06 01:17:52 | INFO | PID:19868 | Started worker process 15848
+2025-04-06 01:18:04 | INFO | PID:19868 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 01:18:06 | INFO | PID:15112 | Purged queue graph_queue before starting worker
+2025-04-06 01:18:07 | INFO | PID:19868 | Started worker process 15112
+2025-04-06 01:19:41 | INFO | PID:14796 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 01:19:42 | INFO | PID:16136 | Purged queue graph_queue before starting worker
+2025-04-06 01:19:44 | INFO | PID:14796 | Started worker process 16136
+2025-04-06 01:19:56 | INFO | PID:14796 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 01:19:57 | INFO | PID:23972 | Purged queue urls_queue before starting worker
+2025-04-06 01:19:59 | INFO | PID:14796 | Started worker process 23972
+2025-04-06 20:09:50 | INFO | PID:11664 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:09:51 | INFO | PID:5500 | Purged queue urls_queue before starting worker
+2025-04-06 20:09:53 | INFO | PID:11664 | Started worker process 5500
+2025-04-06 20:10:54 | INFO | PID:11664 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:10:56 | INFO | PID:25368 | Purged queue urls_queue before starting worker
+2025-04-06 20:10:57 | INFO | PID:11664 | Started worker process 25368
+2025-04-06 20:13:19 | INFO | PID:6584 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:13:21 | INFO | PID:6120 | Purged queue urls_queue before starting worker
+2025-04-06 20:13:22 | INFO | PID:6584 | Started worker process 6120
+2025-04-06 20:14:42 | INFO | PID:23272 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:14:44 | INFO | PID:8788 | Purged queue urls_queue before starting worker
+2025-04-06 20:14:45 | INFO | PID:23272 | Started worker process 8788
+2025-04-06 20:17:41 | INFO | PID:12188 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:17:44 | INFO | PID:12188 | Started worker process 4988
+2025-04-06 20:22:21 | INFO | PID:20532 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:22:24 | INFO | PID:20532 | Started worker process 7028
+2025-04-06 20:22:49 | INFO | PID:4176 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:22:52 | INFO | PID:4176 | Started worker process 9948
+2025-04-06 20:22:55 | INFO | PID:4176 | Started worker process 12120
+2025-04-06 20:22:58 | INFO | PID:4176 | Started worker process 4756
+2025-04-06 20:23:01 | INFO | PID:4176 | Started worker process 6964
+2025-04-06 20:23:31 | INFO | PID:4176 | Found 4 existing workers for worker1 on urls_queue
+2025-04-06 20:23:31 | INFO | PID:4176 | Terminated worker process 9948
+2025-04-06 20:23:31 | INFO | PID:4176 | Terminated worker process 12120
+2025-04-06 20:24:05 | INFO | PID:4176 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 20:24:08 | INFO | PID:4176 | Started worker process 21988
+2025-04-06 20:24:11 | INFO | PID:4176 | Started worker process 15400
+2025-04-06 20:33:20 | INFO | PID:14188 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 20:33:23 | INFO | PID:14188 | Started worker process 2376
+2025-04-06 20:33:36 | INFO | PID:14188 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:33:39 | INFO | PID:14188 | Started worker process 21908
+2025-04-06 20:36:38 | INFO | PID:2032 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:36:41 | INFO | PID:2032 | Started worker process 10732
+2025-04-06 20:38:46 | INFO | PID:16124 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 20:38:49 | INFO | PID:16124 | Started worker process 23084
+2025-04-06 20:39:07 | INFO | PID:16124 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:39:10 | INFO | PID:16124 | Started worker process 24120
+2025-04-06 20:43:37 | INFO | PID:23900 | Found 0 existing workers for worker1 on urls_queue
+2025-04-06 20:43:40 | INFO | PID:23900 | Started worker process 10072
+2025-04-06 20:43:57 | INFO | PID:23900 | Found 0 existing workers for worker2 on graph_queue
+2025-04-06 20:44:00 | INFO | PID:23900 | Started worker process 13036

@@ -47,7 +47,7 @@ RabbitMQ is an open-source message broker that facilitates communication between
 
 ### 3. Scale Queue Workers
 
-**Endpoint:** `POST /queue/scale/{queue_name}`
+**Endpoint:** `POST /worker/scale/{queue_name}`
 
 **Description:** Adjust the number of workers for a specific queue.
 
@@ -70,7 +70,9 @@ RabbitMQ is an open-source message broker that facilitates communication between
 
 ```json
 {
-  "domain_name": "example.com"
+  "message": {
+    // Pass any message here
+  }
 }
 ```
 
@@ -88,7 +90,7 @@ RabbitMQ is an open-source message broker that facilitates communication between
 
 ### 7. Get Worker Logs
 
-**Endpoint:** `GET /workers/logs/<pid>`
+**Endpoint:** `GET /logs/workers/logs/<pid>`
 
 **Description:** Retrieve logs for a specific worker process.
 

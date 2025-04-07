@@ -1,0 +1,1 @@
+2025-04-05 22:17:22 | ERROR | Worker process failed: (404, "NOT_FOUND - no queue 'graph_queue' in vhost '/'")

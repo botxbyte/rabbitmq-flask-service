@@ -7,6 +7,7 @@ import json
 from app.rabbitmq import get_rabbitmq_connection
 from app.config.logger import LoggerSetup
 from app.config.config import RABBITMQ_HOST, RABBITMQ_USERNAME, RABBITMQ_PASSWORD, RABBITMQ_API_PORT
+import time
 
 queue_bp = Blueprint('queue', __name__)
 
@@ -138,55 +139,72 @@ class QueueRoutes:
     def publish_message(queue_name):
         try:
             data = request.json
-            
-            if not data or (isinstance(data, dict) and not data):
-                return jsonify({"error": "Message content cannot be empty"}), 400
+            if not data:
+                return jsonify({"error": "Request body is required"}), 400
 
-            # Check if the queue exists
-            queues_url = f"http://{RABBITMQ_HOST}:{RABBITMQ_API_PORT}/api/queues"
-            queues_response = requests.get(queues_url, auth=RABBITMQ_AUTH)
-            
-            if queues_response.status_code != 200:
-                return jsonify({"error": "Failed to fetch queues"}), queues_response.status_code
-            
-            queues = queues_response.json()
-            queue_exists = any(queue.get("name") == queue_name for queue in queues)
+            message = data.get('message')
+            if not message:
+                return jsonify({"error": "message is required"}), 400
 
-            if not queue_exists:
-                return jsonify({"error": f"Queue '{queue_name}' not found"}), 404
+            # Check if workers are available for the queue
+            consumers_url = f"http://{RABBITMQ_HOST}:{RABBITMQ_API_PORT}/api/consumers"
+            consumers_response = requests.get(consumers_url, auth=RABBITMQ_AUTH)
+            
+            if consumers_response.status_code != 200:
+                return jsonify({"error": "Failed to fetch workers"}), consumers_response.status_code
+            
+            consumers = consumers_response.json()
+            queue_workers = [consumer for consumer in consumers if consumer.get("queue", {}).get("name") == queue_name]
 
-            # Publish the message
+            if not queue_workers:
+                return jsonify({"error": f"No workers available for queue: {queue_name}"}), 404
+
+            # Create message data
+            message_data = {
+                'message': message,
+                'timestamp': datetime.now().isoformat(),
+                'message_id': str(uuid.uuid4())
+            }
+
+            # Connect to RabbitMQ
             connection = get_rabbitmq_connection()
             channel = connection.channel()
-            
-            message_data = {
-                "message_id": str(uuid.uuid4()),
-                "timestamp": datetime.now().isoformat(),
-                **data
-            }
-            
-            channel.basic_publish(
-                exchange='',
-                routing_key=queue_name,
-                body=json.dumps(message_data),
-                properties=pika.BasicProperties(
-                    delivery_mode=2,
-                    content_type='application/json'
+
+            try:
+                # Declare queue
+                channel.queue_declare(queue=queue_name, durable=True)
+
+                # Publish message directly to the specified queue
+                channel.basic_publish(
+                    exchange='',
+                    routing_key=queue_name,
+                    body=json.dumps(message_data),
+                    properties=pika.BasicProperties(
+                        delivery_mode=2,  # make message persistent
+                        content_type='application/json',
+                        timestamp=int(time.time())
+                    )
                 )
-            )
-            
-            connection.close()
-            logger.info(f"Published message to {queue_name}: {message_data.get('message_id')}")
-            
-            return jsonify({
-                "message": "Message published successfully",
-                "queue": queue_name,
-                "message_id": message_data.get("message_id")
-            }), 200
-            
+
+                return jsonify({
+                    "message": "Message published successfully",
+                    "queue": queue_name,
+                    "message_id": message_data['message_id']
+                }), 200
+
+            finally:
+                try:
+                    channel.close()
+                    connection.close()
+                except Exception as e:
+                    logger.error(f"Error closing connections: {str(e)}")
+
         except Exception as e:
-            logger.error(f"Error in publish_task: {str(e)}")
-            return jsonify({"error": str(e)}), 500
+            logger.error(f"Error publishing message: {str(e)}")
+            return jsonify({
+                "error": str(e),
+                "queue": queue_name
+            }), 500
 
     @staticmethod
     @queue_bp.route("/clear/<queue_name>", methods=["POST"])

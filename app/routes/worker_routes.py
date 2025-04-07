@@ -6,13 +6,12 @@ import os
 from pathlib import Path
 import importlib
 import inspect
+import threading
 from app.workers.base import BaseWorker
 from app.rabbitmq import get_rabbitmq_connection
 from app.config.logger import LoggerSetup
 from app.config.config import RABBITMQ_HOST, RABBITMQ_USERNAME, RABBITMQ_PASSWORD, RABBITMQ_API_PORT
 from app.routes.log_routes import LogRoutes
-
-worker_bp = Blueprint('worker', __name__)
 
 # Create an instance of LoggerSetup
 logger_setup = LoggerSetup()
@@ -24,7 +23,29 @@ RABBITMQ_AUTH = (RABBITMQ_USERNAME, RABBITMQ_PASSWORD)
 # Global worker registry
 worker_processes = {}
 
+# Active workers tracking
+active_workers_lock = threading.Lock()
+active_workers = []
+
+# Create blueprint with url_prefix
+worker_bp = Blueprint('worker', __name__)
+
+# Register routes at module level
+@worker_bp.route('/scale/<queue_name>', methods=['POST'])
+def scale_workers(queue_name):
+    return WorkerRoutes.scale_queue_workers(queue_name)
+
+@worker_bp.route('/<queue_name>', methods=['GET'])
+def get_workers(queue_name):
+    return WorkerRoutes.get_queue_workers(queue_name)
+
+@worker_bp.route('/workers', methods=['POST'])
+def find_workers():
+    return WorkerRoutes.find_queue_workers()
+
 class WorkerRoutes:
+    """Worker management routes"""
+    
     @staticmethod
     def get_available_workers():
         """Dynamically load all worker classes from the workers directory"""
@@ -34,7 +55,7 @@ class WorkerRoutes:
         worker_files = [f for f in os.listdir(workers_dir) if f.endswith('.py') and f != '__init__.py' and f != 'base.py']
         
         for file in worker_files:
-            module_name = os.path.splitext(file)[0]  # Using splitext instead of slicing
+            module_name = os.path.splitext(file)[0]
             try:
                 module = importlib.import_module(f'app.workers.{module_name}')
                 
@@ -53,52 +74,200 @@ class WorkerRoutes:
     @staticmethod
     def start_worker(queue_name, worker_name):
         try:
-            current_pid = os.getpid()
-            logger.info(f"Starting worker process {current_pid} for queue {queue_name}")
-            
+            # Create a new channel for this worker
             connection = get_rabbitmq_connection()
             channel = connection.channel()
-            channel.basic_qos(prefetch_count=1)
             
-            available_workers = WorkerRoutes.get_available_workers()
+            # Declare the queue (will not create if it already exists)
+            channel.queue_declare(queue=queue_name, durable=True)
             
-            if worker_name not in available_workers:
+            # Get the worker class based on worker_name
+            worker_class = WorkerRoutes.get_available_workers().get(worker_name)
+            if not worker_class:
                 raise ValueError(f"Invalid worker name: {worker_name}")
-                
-            WorkerClass = available_workers[worker_name]
-            worker = WorkerClass(channel, queue_name)
             
-            channel.queue_declare(queue=queue_name, durable=True, passive=True)
+            # Create and start the worker with the original queue name
+            worker = worker_class(channel, queue_name)
             
-            def callback(ch, method, properties, body):
-                try:
-                    worker.process_message(ch, method, properties, body)
-                except Exception as e:
-                    logger.error(f"Error in callback: {str(e)}")
-                    ch.basic_reject(delivery_tag=method.delivery_tag, requeue=False)
-
-            consumer_tag = f"worker_{current_pid}"
-            channel.basic_consume(
-                queue=queue_name,
-                consumer_tag=consumer_tag,
-                on_message_callback=callback
-            )
+            # Set the worker name
+            worker.worker_name = worker_name
             
-            channel.start_consuming()
+            # Add a delay before starting the worker to prevent processing old messages
+            time.sleep(2)  # Wait for 2 seconds before starting
+            
+            # Start the worker
+            worker.start()
+            
+            # Log worker start
+            process_id = os.getpid()
+            logger.info(f"Started {worker_name} with PID: {process_id}, queue: {queue_name}")
+            
+            # Keep the process running
+            while True:
+                time.sleep(1)
+                if not worker.is_alive():
+                    raise Exception("Worker stopped unexpectedly")
             
         except Exception as e:
-            logger.error(f"Worker process failed: {str(e)}")
-        finally:
-            try:
-                if channel and channel.is_open:
-                    channel.close()
-                if connection and connection.is_open:
-                    connection.close()
-            except Exception:
-                pass
+            logger.error(f"Error starting worker: {str(e)}")
+            raise
 
     @staticmethod
-    @worker_bp.route("/workers/<queue_name>", methods=["GET"])
+    def scale_queue_workers(queue_name):
+        try:
+            data = request.json
+            if not data:
+                return jsonify({"error": "Request body is required"}), 400
+
+            desired_count = data.get("count")
+            worker_name = data.get("worker_name")
+
+            if desired_count is None:
+                return jsonify({"error": "count is required"}), 400
+            
+            try:
+                desired_count = int(desired_count)
+                if desired_count < 0:
+                    return jsonify({"error": "count must be non-negative"}), 400
+            except ValueError:
+                return jsonify({"error": "count must be a valid integer"}), 400
+
+            # Get available worker classes
+            available_workers = WorkerRoutes.get_available_workers()
+            if not worker_name or worker_name not in available_workers:
+                return jsonify({
+                    "error": "Invalid worker name",
+                    "available_names": list(available_workers.keys())
+                }), 400
+
+            # Verify queue exists
+            try:
+                connection = get_rabbitmq_connection()
+                channel = connection.channel()
+                channel.queue_declare(queue=queue_name, passive=True)
+                channel.close()
+                connection.close()
+            except Exception as e:
+                return jsonify({"error": f"Queue '{queue_name}' does not exist"}), 404
+
+            # Get current workers from RabbitMQ API
+            url = f"http://{RABBITMQ_HOST}:{RABBITMQ_API_PORT}/api/consumers"
+            response = requests.get(url, auth=RABBITMQ_AUTH)
+            
+            if response.status_code != 200:
+                return jsonify({"error": "Failed to fetch workers"}), response.status_code
+
+            # Get current workers with matching worker_name prefix for the original queue
+            current_workers = []
+            for consumer in response.json():
+                consumer_tag = consumer.get("consumer_tag", "")
+                queue = consumer.get("queue", {}).get("name", "")
+                
+                # Check if this is our worker by looking at the consumer tag format: worker_name_pid
+                parts = consumer_tag.split('_')
+                if len(parts) >= 2 and parts[0] == worker_name and queue == queue_name:
+                    current_workers.append(consumer)
+
+            current_count = len(current_workers)
+            logger.info(f"Found {current_count} existing workers for {worker_name} on {queue_name}")
+
+            # Scale down if needed
+            if current_count > desired_count:
+                for worker in current_workers[:current_count - desired_count]:
+                    try:
+                        consumer_tag = worker.get("consumer_tag")
+                        if not consumer_tag:
+                            continue
+                            
+                        pid = int(consumer_tag.split('_')[1]) if '_' in consumer_tag else None
+                        
+                        if pid:
+                            try:
+                                os.kill(pid, 9)  # Force kill the process
+                                logger.info(f"Terminated worker process {pid}")
+                            except ProcessLookupError:
+                                logger.info(f"Process {pid} already terminated")
+                            except Exception as e:
+                                logger.error(f"Error killing process {pid}: {str(e)}")
+                    except Exception as e:
+                        logger.error(f"Error removing worker: {str(e)}")
+
+            # Scale up if needed
+            workers_added = 0
+            if current_count < desired_count:
+                for _ in range(desired_count - current_count):
+                    try:
+                        process = multiprocessing.Process(
+                            target=WorkerRoutes.start_worker,
+                            args=(queue_name, worker_name)
+                        )
+                        process.daemon = True
+                        process.start()
+                        
+                        # Wait longer for worker to start and register
+                        time.sleep(3)
+                        
+                        if not process.is_alive():
+                            raise Exception("Worker process failed to start")
+                            
+                        workers_added += 1
+                        logger.info(f"Started worker process {process.pid}")
+                    except Exception as e:
+                        logger.error(f"Error starting worker: {str(e)}")
+
+            # Wait longer for workers to stabilize
+            time.sleep(5)
+
+            # Get final state from RabbitMQ API
+            verify_response = requests.get(url, auth=RABBITMQ_AUTH)
+            final_workers = []
+            
+            if verify_response.status_code == 200:
+                # Get final workers with matching worker_name prefix
+                for consumer in verify_response.json():
+                    consumer_tag = consumer.get("consumer_tag", "")
+                    queue = consumer.get("queue", {}).get("name", "")
+                    
+                    # Check if this is our worker using the original queue name
+                    parts = consumer_tag.split('_')
+                    if len(parts) >= 2 and parts[0] == worker_name and queue == queue_name:
+                        pid = int(parts[1]) if len(parts) > 1 else None
+                        final_workers.append({
+                            "consumer_tag": consumer_tag,
+                            "pid": pid,
+                            "worker_status": "active",
+                            "queue": queue,
+                            "worker_name": worker_name
+                        })
+
+            final_count = len(final_workers)
+            success = final_count == desired_count
+
+            return jsonify({
+                "queue_name": queue_name,
+                "worker_name": worker_name,
+                "previous_count": current_count,
+                "current_count": final_count,
+                "target_count": desired_count,
+                "workers": final_workers,
+                "workers_added": workers_added,
+                "workers_removed": max(0, current_count - final_count),
+                "status": "scaled" if success else "partial_scale",
+                "success": success,
+                "message": "Workers scaled successfully" if success else "Some workers failed to scale"
+            }), 200
+
+        except Exception as e:
+            logger.error(f"Error scaling workers: {str(e)}")
+            return jsonify({
+                "error": str(e),
+                "queue_name": queue_name,
+                "workers_added": 0,
+                "status": "failed",
+                "message": f"Failed to scale workers: {str(e)}"
+            }), 500
+
+    @staticmethod
     def get_queue_workers(queue_name):
         try:
             url = f"http://{RABBITMQ_HOST}:{RABBITMQ_API_PORT}/api/consumers"
@@ -139,124 +308,6 @@ class WorkerRoutes:
             return jsonify({"error": str(e)}), 500
 
     @staticmethod
-    @worker_bp.route("/scale/<queue_name>", methods=["POST"])
-    def scale_queue_workers(queue_name):
-        try:
-            data = request.json
-            desired_count = int(data.get("count", 0))
-            worker_name = data.get("worker_name")
-
-            available_workers = WorkerRoutes.get_available_workers()
-            
-            if not worker_name or worker_name not in available_workers:
-                return jsonify({
-                    "error": "Invalid worker name",
-                    "available_names": list(available_workers.keys())
-                }), 400
-
-            # Clean up dead processes
-            for pid in list(worker_processes.keys()):
-                if not worker_processes[pid]['process'].is_alive():
-                    logger.info(f"Removing dead process {pid}")
-                    del worker_processes[pid]
-
-            # Get current workers
-            url = f"http://{RABBITMQ_HOST}:{RABBITMQ_API_PORT}/api/consumers"
-            response = requests.get(url, auth=RABBITMQ_AUTH)
-            
-            if response.status_code != 200:
-                return jsonify({"error": "Failed to fetch workers"}), response.status_code
-
-            current_workers = [
-                w for w in response.json() 
-                if w.get("queue", {}).get("name") == queue_name
-            ]
-            current_count = len(current_workers)
-
-            # Scale down if needed  
-            if current_count > desired_count:
-                for worker in current_workers[:current_count - desired_count]:
-                    try:
-                        consumer_tag = worker.get("consumer_tag")
-                        pid = int(consumer_tag.split('_')[1]) if '_' in consumer_tag else None
-                        
-                        if pid and pid in worker_processes:
-                            worker_processes[pid]['process'].terminate()
-                            del worker_processes[pid]
-                            logger.info(f"Terminated worker process {pid}")
-                    except Exception as e:
-                        logger.error(f"Error removing worker: {str(e)}")
-
-            # Scale up if needed
-            if current_count < desired_count:
-                for _ in range(desired_count - current_count):
-                    try:
-                        process = multiprocessing.Process(
-                            target=WorkerRoutes.start_worker,
-                            args=(queue_name, worker_name)
-                        )
-                        process.daemon = True
-                        process.start()
-                        
-                        worker_processes[process.pid] = {
-                            'process': process,
-                            'queue': queue_name,
-                            'name': worker_name
-                        }
-                        logger.info(f"Started worker process {process.pid}")
-                    except Exception as e:
-                        logger.error(f"Error starting worker: {str(e)}")
-
-            # Wait for workers to stabilize
-            time.sleep(2)
-
-            # Get final state
-            verify_response = requests.get(url, auth=RABBITMQ_AUTH)
-            final_workers = []
-
-            if verify_response.status_code == 200:
-                consumers = verify_response.json()
-                for w in consumers:
-                    if w.get("queue", {}).get("name") == queue_name:
-                        consumer_tag = w.get("consumer_tag")
-                        pid = int(consumer_tag.split('_')[1]) if '_' in consumer_tag else None
-                        
-                        if pid and pid in worker_processes:
-                            final_workers.append({
-                                "consumer_tag": consumer_tag,
-                                "channel": w.get("channel_details", {}).get("name"),
-                                "connection": w.get("connection_details", {}).get("name", ""),
-                                "pid": pid,
-                                "worker_status": "active"
-                            })
-
-            final_count = len(final_workers)
-            success = final_count == desired_count
-
-            return jsonify({
-                "queue_name": queue_name,
-                "worker_name": worker_name,
-                "previous_count": current_count,
-                "current_count": final_count,
-                "target_count": desired_count,
-                "workers": final_workers,
-                "workers_added": max(0, final_count - current_count),
-                "workers_removed": max(0, current_count - final_count),
-                "status": "scaled" if success else "partial_scale",
-                "success": success
-            }), 200
-
-        except Exception as e:
-            logger.error(f"Error scaling workers: {str(e)}")
-            return jsonify({
-                "error": str(e),
-                "queue_name": queue_name,
-                "workers_added": 0,
-                "status": "failed"
-            }), 500
-
-    @staticmethod
-    @worker_bp.route("/workers", methods=["POST"])
     def find_queue_workers():
         try:
             data = request.json
@@ -296,7 +347,7 @@ class WorkerRoutes:
                         "log_file": {
                             "static_url": static_url,
                             "full_url": full_url,
-                            "view_url": f"{request.host_url}queue/workers/view-logs/{worker_pid}",
+                            "view_url": f"{request.host_url}logs/workers/view-logs/{worker_pid}",
                         },
                         "ip_address": request.remote_addr,
                         "pid": worker_pid

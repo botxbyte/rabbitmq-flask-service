@@ -1,0 +1,175 @@
+2025-04-05 21:18:53 | INFO | PID:18928 | Started worker process 20680
+2025-04-05 21:18:54 | INFO | PID:20680 | Starting worker process 20680 for queue urls_queue
+2025-04-05 21:19:16 | INFO | PID:18928 | Published message to urls_queue: f0d0fa05-47fc-4add-89bb-efdcef44a880
+2025-04-05 21:21:42 | INFO | PID:10056 | Started worker process 21456
+2025-04-05 21:21:44 | INFO | PID:21456 | Starting worker process 21456 for queue urls_queue
+2025-04-05 21:21:54 | INFO | PID:10056 | Published message to urls_queue: e418dac6-55bb-4bf1-aed3-5aad1babe266
+2025-04-05 21:24:03 | INFO | PID:1328 | Started worker process 12340
+2025-04-05 21:24:05 | INFO | PID:12340 | Starting worker process 12340 for queue urls_queue
+2025-04-05 21:24:22 | INFO | PID:1328 | Published message to urls_queue: 42605d7f-3602-41b5-9e27-5cbafbd23b93
+2025-04-05 21:25:38 | INFO | PID:20108 | Started worker process 2596
+2025-04-05 21:25:40 | INFO | PID:2596 | Starting worker process 2596 for queue urls_queue
+2025-04-05 21:26:03 | INFO | PID:20108 | Published message to urls_queue: 2afb5b4a-0fc9-4599-a03a-38f6a240c4a0
+2025-04-05 22:02:22 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:22 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:25 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:25 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:28 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:28 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:31 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:31 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:34 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:34 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:37 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:37 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:40 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:40 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:43 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:43 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:46 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:46 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:49 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:49 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:52 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:52 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:55 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:55 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:58 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:02:58 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:03:01 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:03:01 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:03:04 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:03:04 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:03:07 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:03:07 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:03:10 | INFO | PID:23852 | Log path generated: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:03:10 | INFO | PID:23852 | Streaming logs from: app\static\logs\workers\2025\04\05\worker_14700.log
+2025-04-05 22:13:36 | INFO | PID:11308 | Started worker process 3536
+2025-04-05 22:13:38 | INFO | PID:3536 | Starting worker process 3536 for queue urls_queue
+2025-04-05 22:14:23 | INFO | PID:11308 | Published message to urls_queue: f8e127a1-22aa-46b2-bc67-d798a6c223d2
+2025-04-05 22:14:26 | ERROR | PID:11308 | Error starting worker: HTTPConnectionPool(host='http', port=80): Max retries exceeded with url: /127.0.0.1:5000/worker/scale/urls_queue (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x000001F57C34C710>: Failed to resolve 'http' ([Errno 11001] getaddrinfo failed)"))
+2025-04-05 22:14:49 | INFO | PID:11308 | Published message to urls_queue: e5a78739-18d1-4c45-95b2-3ecb0323e8d7
+2025-04-05 22:14:52 | ERROR | PID:11308 | Error starting worker: HTTPConnectionPool(host='http', port=80): Max retries exceeded with url: /127.0.0.1:5000/worker/scale/urls_queue (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x000001F57C322A20>: Failed to resolve 'http' ([Errno 11001] getaddrinfo failed)"))
+2025-04-05 22:15:13 | INFO | PID:11308 | Consumer Tag: worker_3536
+2025-04-05 22:15:13 | INFO | PID:11308 | Log path generated: app\static\logs\workers\2025\04\05\worker_3536.log
+2025-04-05 22:16:02 | INFO | PID:11308 | Consumer Tag: worker_3536
+2025-04-05 22:16:02 | INFO | PID:11308 | Log path generated: app\static\logs\workers\2025\04\05\worker_3536.log
+2025-04-05 22:16:31 | INFO | PID:11308 | Consumer Tag: worker_3536
+2025-04-05 22:16:31 | INFO | PID:11308 | Log path generated: app\static\logs\workers\2025\04\05\worker_3536.log
+2025-04-05 22:17:19 | INFO | PID:11308 | Started worker process 21576
+2025-04-05 22:17:22 | INFO | PID:21576 | Starting worker process 21576 for queue graph_queue
+2025-04-05 22:17:28 | INFO | PID:11308 | Removing dead process 21576
+2025-04-05 22:17:30 | INFO | PID:11308 | Started worker process 13796
+2025-04-05 22:17:32 | INFO | PID:13796 | Starting worker process 13796 for queue graph_queue
+2025-04-05 22:18:55 | INFO | PID:11308 | Queue 'graph_queue' created successfully
+2025-04-05 22:19:02 | INFO | PID:11308 | Removing dead process 13796
+2025-04-05 22:19:04 | INFO | PID:11308 | Started worker process 2212
+2025-04-05 22:19:06 | INFO | PID:2212 | Starting worker process 2212 for queue graph_queue
+2025-04-05 22:19:35 | INFO | PID:11308 | Consumer Tag: worker_3536
+2025-04-05 22:19:35 | INFO | PID:11308 | Log path generated: app\static\logs\workers\2025\04\05\worker_3536.log
+2025-04-05 22:20:08 | INFO | PID:11308 | Consumer Tag: worker_3536
+2025-04-05 22:20:08 | INFO | PID:11308 | Log path generated: app\static\logs\workers\2025\04\05\worker_3536.log
+2025-04-05 22:20:25 | INFO | PID:11308 | Consumer Tag: worker_2212
+2025-04-05 22:20:25 | INFO | PID:11308 | Log path generated: app\static\logs\workers\2025\04\05\worker_2212.log
+2025-04-05 22:20:34 | INFO | PID:11308 | Published message to urls_queue: 67fe5364-da3d-4e96-b536-0241aabc3ee2
+2025-04-05 22:20:37 | ERROR | PID:11308 | Error starting worker: HTTPConnectionPool(host='http', port=80): Max retries exceeded with url: /127.0.0.1:5000/worker/scale/urls_queue (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x000001F57C323140>: Failed to resolve 'http' ([Errno 11001] getaddrinfo failed)"))
+2025-04-05 22:25:08 | INFO | PID:15628 | Started worker process 1720
+2025-04-05 22:25:10 | INFO | PID:1720 | Starting worker process 1720 for queue urls_queue
+2025-04-05 22:25:19 | INFO | PID:15628 | Started worker process 20080
+2025-04-05 22:25:21 | INFO | PID:20080 | Starting worker process 20080 for queue graph_queue
+2025-04-05 22:25:30 | INFO | PID:15628 | Published message to urls_queue: 13c9715b-005c-49f9-aeb7-d4ba2e071508
+2025-04-05 22:25:32 | ERROR | PID:15628 | Error starting worker: HTTPConnectionPool(host='http', port=80): Max retries exceeded with url: /127.0.0.1:5000/worker/scale/urls_queue (Caused by NameResolutionError("<urllib3.connection.HTTPConnection object at 0x000001379182CAD0>: Failed to resolve 'http' ([Errno 11001] getaddrinfo failed)"))
+2025-04-05 22:31:08 | INFO | PID:12280 | Started worker process 23260
+2025-04-05 22:31:09 | INFO | PID:23260 | Starting worker process 23260 for queue graph_queue
+2025-04-05 22:31:17 | INFO | PID:12280 | Started worker process 18400
+2025-04-05 22:31:19 | INFO | PID:18400 | Starting worker process 18400 for queue urls_queue
+2025-04-05 22:31:36 | INFO | PID:12280 | Published message to urls_queue: 0ac7b94f-5b44-4f30-882e-512e5af36de6
+2025-04-05 22:31:37 | ERROR | PID:12280 | Failed to start worker: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2025-04-05 23:04:17 | INFO | PID:14468 | Started worker process 24700
+2025-04-05 23:04:26 | INFO | PID:24700 | Starting worker process 24700 for queue urls_queue
+2025-04-05 23:08:16 | INFO | PID:23392 | Started worker process 11164
+2025-04-05 23:08:17 | INFO | PID:11164 | Starting worker process 11164 for queue urls_queue
+2025-04-05 23:08:53 | INFO | PID:23392 | Started worker process 21608
+2025-04-05 23:08:54 | INFO | PID:21608 | Starting worker process 21608 for queue graph_queue
+2025-04-05 23:09:05 | INFO | PID:23392 | Published message to urls_queue: 3ea90903-0ffd-4d70-bcf3-858b20174af3
+2025-04-05 23:09:05 | ERROR | PID:23392 | Failed to start worker: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2025-04-05 23:11:16 | INFO | PID:13076 | Published message to urls_queue: 4ed53da5-719e-4d3e-84d5-8ea1ec855edf
+2025-04-05 23:11:18 | ERROR | PID:13076 | Failed to start worker: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2025-04-05 23:12:59 | INFO | PID:17388 | Published message to urls_queue: ad192612-bf93-4db9-9535-cd26372c0194
+2025-04-05 23:13:01 | ERROR | PID:17388 | Failed to start worker: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2025-04-05 23:14:26 | INFO | PID:6304 | Published message to urls_queue: 1bd09d12-61fb-4be1-a744-bbfcbc0a17e2
+2025-04-05 23:14:28 | ERROR | PID:6304 | Failed to start worker: <!doctype html>
+<html lang=en>
+<title>404 Not Found</title>
+<h1>Not Found</h1>
+<p>The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.</p>
+
+2025-04-05 23:23:13 | INFO | PID:15884 | Started worker process 13100
+2025-04-05 23:23:15 | INFO | PID:13100 | Starting worker process 13100 for queue urls_queue
+2025-04-05 23:26:51 | INFO | PID:18144 | Started worker process 13536
+2025-04-05 23:26:53 | INFO | PID:13536 | Starting worker process 13536 for queue graph_queue
+2025-04-05 23:27:22 | INFO | PID:18144 | Started worker process 21852
+2025-04-05 23:27:24 | INFO | PID:21852 | Starting worker process 21852 for queue urls_queue
+2025-04-05 23:27:44 | INFO | PID:18144 | Published message to urls_queue: 082cf0c7-4d22-41ef-8e25-0d82eb1b94be
+2025-04-05 23:27:44 | INFO | PID:18144 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-05 23:31:16 | INFO | PID:8352 | Published message to urls_queue: a15a3089-494e-4f81-9df2-a44d41063334
+2025-04-05 23:31:16 | INFO | PID:8352 | Attempting to start worker using URL: http://localhost:5000/worker/scale/urls_queue
+2025-04-05 23:31:21 | INFO | PID:8352 | Started worker process 20864
+2025-04-05 23:31:22 | INFO | PID:20864 | Starting worker process 20864 for queue urls_queue
+2025-04-05 23:34:21 | INFO | PID:15448 | Cleared queue urls_queue: removed 0 messages
+2025-04-05 23:34:44 | INFO | PID:15448 | Published message to urls_queue: 0fd36902-66b1-4dc8-a12a-4691d3cd6b0b
+2025-04-05 23:34:44 | INFO | PID:15448 | Attempting to start worker using URL: http://localhost:5000/worker/scale/urls_queue
+2025-04-05 23:34:48 | INFO | PID:15448 | Started worker process 25296
+2025-04-05 23:34:50 | INFO | PID:25296 | Starting worker process 25296 for queue urls_queue
+2025-04-05 23:37:55 | INFO | PID:18348 | Cleared queue urls_queue: removed 0 messages
+2025-04-05 23:39:02 | INFO | PID:18348 | Published message to urls_queue: 0edf7804-4270-473b-a05d-f80993eef052
+2025-04-05 23:39:02 | INFO | PID:18348 | Attempting to start worker using URL: http://localhost:5000/worker/scale/urls_queue
+2025-04-05 23:39:06 | INFO | PID:18348 | Started worker process 21148
+2025-04-05 23:39:07 | INFO | PID:21148 | Starting worker process 21148 for queue urls_queue
+2025-04-05 23:40:30 | INFO | PID:18852 | Cleared queue urls_queue: removed 0 messages
+2025-04-05 23:41:10 | INFO | PID:18852 | Published message to urls_queue: 19cf206f-ca79-4d55-b41a-ccb2c3f123d0
+2025-04-05 23:41:10 | INFO | PID:18852 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-05 23:41:12 | INFO | PID:18852 | Started worker process 6708
+2025-04-05 23:41:13 | INFO | PID:6708 | Starting worker process 6708 for queue urls_queue
+2025-04-05 23:41:57 | INFO | PID:10968 | Cleared queue urls_queue: removed 0 messages
+2025-04-05 23:42:01 | INFO | PID:10968 | Published message to urls_queue: 364eb0e0-8d66-470a-9f63-d59dde1203c7
+2025-04-05 23:42:01 | INFO | PID:10968 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-05 23:42:03 | INFO | PID:10968 | Started worker process 16876
+2025-04-05 23:42:04 | INFO | PID:16876 | Starting worker process 16876 for queue urls_queue
+2025-04-05 23:43:19 | INFO | PID:396 | Cleared queue urls_queue: removed 0 messages
+2025-04-05 23:43:23 | INFO | PID:396 | Published message to urls_queue: b84b51c0-d444-46e7-95d2-1ea3f7b5d200
+2025-04-05 23:43:23 | INFO | PID:396 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-05 23:43:25 | INFO | PID:396 | Started worker process 16664
+2025-04-05 23:43:27 | INFO | PID:16664 | Starting worker process 16664 for queue urls_queue
+2025-04-05 23:44:44 | INFO | PID:17200 | Started worker process 21020
+2025-04-05 23:44:45 | INFO | PID:21020 | Starting worker process 21020 for queue urls_queue
+2025-04-05 23:45:07 | INFO | PID:17200 | Started worker process 19500
+2025-04-05 23:45:08 | INFO | PID:19500 | Starting worker process 19500 for queue graph_queue
+2025-04-05 23:45:20 | INFO | PID:17200 | Published message to urls_queue: 9e38c140-062a-422b-a809-aaeea0fb3f57
+2025-04-05 23:45:20 | INFO | PID:17200 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue
+2025-04-05 23:51:46 | INFO | PID:17044 | Started worker process 23896
+2025-04-05 23:51:48 | INFO | PID:23896 | Starting worker process 23896 for queue graph_queue
+2025-04-05 23:52:10 | INFO | PID:17044 | Started worker process 13748
+2025-04-05 23:52:12 | INFO | PID:13748 | Starting worker process 13748 for queue urls_queue
+2025-04-05 23:52:41 | INFO | PID:17044 | Published message to urls_queue: b26fd240-8bda-4603-95f7-d67e8a8bea71
+2025-04-05 23:52:41 | INFO | PID:17044 | Attempting to start worker using URL: http://127.0.0.1:5000/worker/scale/urls_queue

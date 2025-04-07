@@ -1,0 +1,8 @@
+2025-04-07 11:38:28 | INFO | Worker2 initialized and ready to process messages
+2025-04-07 11:38:28 | INFO | Started worker2 on queue: graph_queue
+2025-04-07 11:38:28 | INFO | Started worker2 with PID: 14896, queue: graph_queue
+2025-04-07 11:40:03 | INFO | Worker2 starting message processing
+2025-04-07 11:40:03 | INFO | Processing message in Worker2: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:40:03.113821', 'message_id': 'ade26092-885b-45b4-aec1-eb2e6392cdee'}
+2025-04-07 11:40:03 | INFO | Worker2 performing message processing...
+2025-04-07 11:40:03 | INFO | Worker2 successfully processed message
+2025-04-07 11:40:03 | INFO | Message processing completed successfully in Worker2: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:40:03.113821', 'message_id': 'ade26092-885b-45b4-aec1-eb2e6392cdee'}

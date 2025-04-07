@@ -1,0 +1,2 @@
+2025-04-05 21:24:22 | INFO | Processing message: {'message_id': '42605d7f-3602-41b5-9e27-5cbafbd23b93', 'timestamp': '2025-04-05T21:24:22.852314', 'message': {'data': 'hello'}}
+2025-04-05 21:24:22 | INFO | Message processing completed successfully for data: {'message_id': '42605d7f-3602-41b5-9e27-5cbafbd23b93', 'timestamp': '2025-04-05T21:24:22.852314', 'message': {'data': 'hello'}}

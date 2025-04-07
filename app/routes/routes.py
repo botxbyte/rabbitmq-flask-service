@@ -9,10 +9,10 @@ from app.routes.log_routes import log_bp
 STATIC_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static')
 app = Flask(__name__, static_folder=STATIC_FOLDER)
 
-# Register blueprints
-app.register_blueprint(queue_bp)
-app.register_blueprint(worker_bp)
-app.register_blueprint(log_bp)
+# Register blueprints with URL prefixes
+app.register_blueprint(queue_bp, url_prefix='/queue')
+app.register_blueprint(worker_bp, url_prefix='/worker')
+app.register_blueprint(log_bp, url_prefix='/logs')
 
 @app.route('/static/<path:filename>')
 def custom_static(filename):
