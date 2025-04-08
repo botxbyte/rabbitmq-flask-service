@@ -198,7 +198,13 @@ RabbitMQ is an open-source message broker that enables applications to communica
 
 ## Running the Project
 
-To run the RabbitMQ Flask service, follow these steps:
+For Production:
+
+```bash
+docker-compose down && docker-compose build && docker-compose up -d && docker-comose logs -f
+```
+
+For Dev - To run the RabbitMQ Flask service, follow these steps:
 
 1. **Start RabbitMQ Server**: Ensure that RabbitMQ is running on your machine. You can start it using Docker or install it directly on your system.
 
