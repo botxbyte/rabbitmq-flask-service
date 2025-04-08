@@ -21,4 +21,4 @@ COPY . .
 COPY swagger.yaml /app/static/
 
 # Set default command to run your app
-CMD ["python", "app/run.py"]
+CMD ["python", "run.py"]

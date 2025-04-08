@@ -5,20 +5,15 @@ services:
     build: .
     ports:
       - "8501:8501"
-    # environment:
-    #   - REDIS_URL=redis://redis:6379/0
-    #   - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
-    #   - PYTHONUNBUFFERED=1
-    #   - USE_SIMULATED_PROVIDERS=${USE_SIMULATED_PROVIDERS:-false}
     depends_on:
       - rabbitmq
     networks:
-      - rebbitmq-flask-service-network
+      - rabbitmq-flask-service-network
     volumes:
       - .:/app
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:4.0-management
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -27,9 +22,9 @@ services:
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
 
-# networks:
-#   ai-rate-limiter-network:
-#     driver: bridge
+networks:
+  rabbitmq-flask-service-network:
+    driver: bridge
 
 volumes:
   rabbitmq_data:
