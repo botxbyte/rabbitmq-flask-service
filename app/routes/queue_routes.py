@@ -23,25 +23,37 @@ class QueueRoutes:
     @queue_bp.route("/list", methods=["GET"])
     def list_queues():
         try:
-            # Get queues
+            queue_names_param = request.args.get("queue_names", None)
+            requested_queue_names = [name.strip() for name in queue_names_param.split(",") if name.strip()] if queue_names_param else []
+
+            # Fetch queues and consumers
             queues_url = f"http://{RABBITMQ_HOST}:{RABBITMQ_API_PORT}/api/queues"
             queues_response = requests.get(queues_url, auth=RABBITMQ_AUTH)
-            
             if queues_response.status_code != 200:
                 return jsonify({"error": "Failed to fetch queues"}), queues_response.status_code
-            
-            # Get consumers/workers
+
             consumers_url = f"http://{RABBITMQ_HOST}:{RABBITMQ_API_PORT}/api/consumers"
             consumers_response = requests.get(consumers_url, auth=RABBITMQ_AUTH)
-            
             if consumers_response.status_code != 200:
                 return jsonify({"error": "Failed to fetch workers"}), consumers_response.status_code
-            
+
             queues = queues_response.json()
             consumers = consumers_response.json()
-            
+
+            # First filter the queues if queue_names provided
+            filtered_queues = [
+                queue for queue in queues
+                if not requested_queue_names or queue.get("name") in requested_queue_names
+            ]
+
+            # If queue_names were provided but no match found, fallback to all queues
+            if requested_queue_names and not filtered_queues:
+                filtered_queues = queues
+
             queue_details = []
-            for queue in queues:
+            for queue in filtered_queues:
+                queue_name = queue.get("name")
+
                 queue_workers = [
                     {
                         "consumer_tag": consumer.get("consumer_tag"),
@@ -50,29 +62,45 @@ class QueueRoutes:
                         "pid": consumer.get("channel_details", {}).get("peer_port")
                     }
                     for consumer in consumers
-                    if consumer.get("queue", {}).get("name") == queue.get("name")
+                    if consumer.get("queue", {}).get("name") == queue_name
                 ]
-                
-                queue_details.append({
-                    "name": queue.get("name"),
+
+                queue_info = {
+                    "name": queue_name,
                     "messages": queue.get("messages"),
                     "messages_ready": queue.get("messages_ready"),
                     "messages_unacknowledged": queue.get("messages_unacknowledged"),
+                    "messages_persistent": queue.get("messages_persistent"),
                     "worker_count": len(queue_workers),
                     "workers": queue_workers,
-                    "worker_pids": [w.get("pid") for w in queue_workers]
-                })
+                    "worker_pids": [w.get("pid") for w in queue_workers],
+                    "memory": queue.get("memory"),
+                    "state": queue.get("state"),
+                    "reductions": queue.get("reductions"),
+                    "node": queue.get("node"),
+                    "idle_since": queue.get("idle_since"),
+                    "durable": queue.get("durable"),
+                    "type": queue.get("type"),
+                    "arguments": queue.get("arguments"),
+                    "vhost": queue.get("vhost"),
+                    "exclusive": queue.get("exclusive"),
+                    "auto_delete": queue.get("auto_delete"),
+                }
+
+                if "message_stats" in queue:
+                    queue_info["message_stats"] = queue["message_stats"]
+
+                queue_details.append(queue_info)
 
             return jsonify({
                 "status": "connected",
                 "queue_count": len(queue_details),
                 "queues": queue_details
             }), 200
-            
+
         except Exception as e:
             logger.error(f"Error in list_queues: {str(e)}")
             return jsonify({"error": str(e)}), 500
-
     @staticmethod
     @queue_bp.route("/create", methods=["POST"])
     def create_queue():

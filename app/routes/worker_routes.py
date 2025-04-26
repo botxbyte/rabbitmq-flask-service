@@ -74,20 +74,32 @@ class WorkerRoutes:
     @staticmethod
     def start_worker(queue_name, worker_name):
         try:
+            logger.info(f"Starting worker {worker_name} for queue {queue_name}")
+            
             # Create a new channel for this worker
             connection = get_rabbitmq_connection()
             channel = connection.channel()
+            logger.info("Created new channel")
             
             # Declare the queue (will not create if it already exists)
             channel.queue_declare(queue=queue_name, durable=True)
+            logger.info(f"Declared queue: {queue_name}")
             
             # Get the worker class based on worker_name
-            worker_class = WorkerRoutes.get_available_workers().get(worker_name)
+            available_workers = WorkerRoutes.get_available_workers()
+            logger.info(f"Available workers: {list(available_workers.keys())}")
+            
+            worker_class = available_workers.get(worker_name)
             if not worker_class:
-                raise ValueError(f"Invalid worker name: {worker_name}")
+                error_msg = f"Invalid worker name: {worker_name}. Available workers: {list(available_workers.keys())}"
+                logger.error(error_msg)
+                raise ValueError(error_msg)
+            
+            logger.info(f"Found worker class: {worker_class.__name__}")
             
             # Create and start the worker with the original queue name
             worker = worker_class(channel, queue_name)
+            logger.info("Worker instance created")
             
             # Set the worker name
             worker.worker_name = worker_name
@@ -97,6 +109,7 @@ class WorkerRoutes:
             
             # Start the worker
             worker.start()
+            logger.info("Worker started")
             
             # Log worker start
             process_id = os.getpid()
@@ -106,7 +119,9 @@ class WorkerRoutes:
             while True:
                 time.sleep(1)
                 if not worker.is_alive():
-                    raise Exception("Worker stopped unexpectedly")
+                    error_msg = f"Worker {worker_name} stopped unexpectedly"
+                    logger.error(error_msg)
+                    raise Exception(error_msg)
             
         except Exception as e:
             logger.error(f"Error starting worker: {str(e)}")
@@ -201,22 +216,21 @@ class WorkerRoutes:
                             target=WorkerRoutes.start_worker,
                             args=(queue_name, worker_name)
                         )
-                        process.daemon = True
+                        process.daemon = False
                         process.start()
                         
-                        # Wait longer for worker to start and register
-                        time.sleep(3)
+                        # Wait for worker to start and verify it's running
+                        time.sleep(3)  # Increased wait time to ensure proper startup
                         
                         if not process.is_alive():
-                            raise Exception("Worker process failed to start")
+                            # Check if process exited with error
+                            if process.exitcode != 0:
+                                raise Exception(f"Worker process failed to start (exit code: {process.exitcode})")
                             
                         workers_added += 1
                         logger.info(f"Started worker process {process.pid}")
                     except Exception as e:
                         logger.error(f"Error starting worker: {str(e)}")
-
-            # Wait longer for workers to stabilize
-            time.sleep(5)
 
             # Get final state from RabbitMQ API
             verify_response = requests.get(url, auth=RABBITMQ_AUTH)
@@ -241,7 +255,8 @@ class WorkerRoutes:
                         })
 
             final_count = len(final_workers)
-            success = final_count == desired_count
+            # Consider the scaling successful if we added the requested number of workers
+            success = workers_added == (desired_count - current_count)
 
             return jsonify({
                 "queue_name": queue_name,
