@@ -1,5 +1,0 @@
-2025-04-06 20:24:10 | INFO | Worker2 initialized and ready to process messages
-2025-04-06 20:24:10 | INFO | Base Worker: Starting worker for queue: graph_queue
-2025-04-06 20:24:10 | INFO | Base Worker: Will only process messages after 2025-04-06T20:24:10.270430
-2025-04-06 20:24:10 | INFO | Base Worker: Started worker2 with PID: 15400, consumer_tag: worker2_15400_1743951250, queue: graph_queue
-2025-04-06 20:24:10 | INFO | Started worker2 with PID: 15400, queue: graph_queue

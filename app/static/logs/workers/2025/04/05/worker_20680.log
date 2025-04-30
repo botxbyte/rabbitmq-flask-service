@@ -1,2 +1,0 @@
-2025-04-05 21:19:16 | INFO | Processing message: {'message_id': 'f0d0fa05-47fc-4add-89bb-efdcef44a880', 'timestamp': '2025-04-05T21:19:16.979818', 'message': {'data': 'hello'}}
-2025-04-05 21:19:16 | INFO | Message processing completed successfully for data: {'message_id': 'f0d0fa05-47fc-4add-89bb-efdcef44a880', 'timestamp': '2025-04-05T21:19:16.979818', 'message': {'data': 'hello'}}

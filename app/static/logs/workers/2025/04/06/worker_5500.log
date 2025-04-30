@@ -1,9 +1,0 @@
-2025-04-06 20:09:51 | INFO | Worker1 initialized and ready to process messages
-2025-04-06 20:09:51 | INFO | Setting up worker queue: urls_queue_worker1
-2025-04-06 20:09:51 | INFO | Successfully set up worker queue: urls_queue_worker1
-2025-04-06 20:09:51 | INFO | Base Worker: Starting worker for queue: urls_queue_worker1
-2025-04-06 20:09:51 | INFO | Base Worker: Will only process messages after 2025-04-06T20:09:51.639136
-2025-04-06 20:09:51 | INFO | Base Worker: Started worker1 with PID: 5500, consumer_tag: worker1_5500_1743950391, queue: urls_queue_worker1
-2025-04-06 20:09:51 | INFO | Started worker1 with PID: 5500, queue: urls_queue
-2025-04-06 20:10:37 | INFO | Base Worker: Consumer thread stopping
-2025-04-06 20:10:37 | ERROR | Error starting worker: Worker stopped unexpectedly

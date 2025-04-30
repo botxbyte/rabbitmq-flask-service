@@ -1,3 +1,0 @@
-2025-04-06 20:38:48 | INFO | Worker2 initialized and ready to process messages
-2025-04-06 20:38:48 | INFO | Started worker2 on queue: graph_queue
-2025-04-06 20:38:48 | INFO | Started worker2 with PID: 23084, queue: graph_queue

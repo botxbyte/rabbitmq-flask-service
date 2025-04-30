@@ -1,2 +1,0 @@
-2025-04-05 23:27:44 | INFO | Processing message: {'message_id': '082cf0c7-4d22-41ef-8e25-0d82eb1b94be', 'timestamp': '2025-04-05T23:27:44.469424', 'worker_sequence': ['worker1', 'worker2'], 'current_worker_index': 0, 'message': {'data': 'hello'}}
-2025-04-05 23:27:44 | INFO | Message processing completed successfully for data: {'message_id': '082cf0c7-4d22-41ef-8e25-0d82eb1b94be', 'timestamp': '2025-04-05T23:27:44.469424', 'worker_sequence': ['worker1', 'worker2'], 'current_worker_index': 0, 'message': {'data': 'hello'}}

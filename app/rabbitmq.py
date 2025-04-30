@@ -18,7 +18,7 @@ def get_rabbitmq_connection():
         client_properties={
             'pid': str(pid),
             'connection_name': f'worker-{pid}',
-            'app_id': 'your_app_name'  # Change this to your application name
+            'app_id': 'rabbitmq-flask-service',  
         }
     )
     

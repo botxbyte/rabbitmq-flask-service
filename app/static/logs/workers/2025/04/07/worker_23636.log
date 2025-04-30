@@ -1,9 +1,0 @@
-2025-04-07 11:47:55 | INFO | Worker1 initialized and ready to process messages
-2025-04-07 11:47:55 | INFO | Processing message: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:38:52.814698', 'message_id': 'd60d97e9-b60b-49f5-85c8-e07c6b22c8cb'}
-2025-04-07 11:47:55 | INFO | Started worker1 on queue: urls_queue
-2025-04-07 11:47:55 | INFO | Message processing completed successfully for data: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:38:52.814698', 'message_id': 'd60d97e9-b60b-49f5-85c8-e07c6b22c8cb'}
-2025-04-07 11:47:55 | INFO | Started worker1 with PID: 23636, queue: urls_queue
-2025-04-07 11:47:55 | INFO | Processing message: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:39:10.660250', 'message_id': 'e0835f20-0f9c-4269-890b-1e497e1a667e'}
-2025-04-07 11:47:55 | INFO | Message processing completed successfully for data: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:39:10.660250', 'message_id': 'e0835f20-0f9c-4269-890b-1e497e1a667e'}
-2025-04-07 11:47:55 | INFO | Processing message: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:40:21.767493', 'message_id': '9fb0bb9e-3e8f-4f34-a774-23c9dbaee5de'}
-2025-04-07 11:47:56 | INFO | Message processing completed successfully for data: {'message': {'data': 'hello'}, 'timestamp': '2025-04-07T11:40:21.767493', 'message_id': '9fb0bb9e-3e8f-4f34-a774-23c9dbaee5de'}

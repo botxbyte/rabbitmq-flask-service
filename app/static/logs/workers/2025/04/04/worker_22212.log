@@ -1,2 +1,0 @@
-2025-04-04 17:47:15 | INFO | Processing message: {'message_id': '880bb3b4-3459-4bae-b1ba-efc3cabe7dfe', 'timestamp': '2025-04-04T17:47:15.324101', 'message': {'data': 'hello'}}
-2025-04-04 17:47:27 | INFO | Processing message: {'message_id': '69de73a1-8709-4f37-9dcd-fcff1f873d8b', 'timestamp': '2025-04-04T17:47:27.440840', 'message': {'data': 'hello'}}

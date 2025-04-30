@@ -1,7 +1,0 @@
-2025-04-06 20:13:21 | INFO | Worker1 initialized and ready to process messages
-2025-04-06 20:13:21 | INFO | Setting up worker queue: urls_queue_worker1
-2025-04-06 20:13:21 | INFO | Successfully set up worker queue: urls_queue_worker1
-2025-04-06 20:13:21 | INFO | Base Worker: Starting worker for queue: urls_queue_worker1
-2025-04-06 20:13:21 | INFO | Base Worker: Will only process messages after 2025-04-06T20:13:21.581354
-2025-04-06 20:13:21 | INFO | Base Worker: Started worker1 with PID: 6120, consumer_tag: worker1_6120_1743950601, queue: urls_queue_worker1
-2025-04-06 20:13:21 | INFO | Started worker1 with PID: 6120, queue: urls_queue
